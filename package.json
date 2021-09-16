@@ -1,0 +1,28 @@
+{
+  "name": "cadeia-de-custodia",
+  "version": "1.0.0",
+  "description": "Projeto LabXP em parceria com a Polícia Científica de São Paulo para a disciplina de Laboratório de Métodos Ágeis (MAC0472) na Universidade de São Paulo.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrnpinheiro/cadeia-de-custodia.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrnpinheiro/cadeia-de-custodia/issues"
+  },
+  "homepage": "https://github.com/mrnpinheiro/cadeia-de-custodia#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^27.2.0",
+    "nodemon": "^2.0.12"
+  }
+}
