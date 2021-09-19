@@ -2,81 +2,81 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
 const evidenceSchema =  new Schema({
-    data_criacao_evidencia:{
+    data_criacao_evidencia: {
         type: Date,
         default: Date.now
     },
-    id_lacre:{
+    id_lacre: {
         type: String,
         required: true
     },
-    unidade:{
+    unidade: {
         type: String,
         required: true
     },
-    id_vestigio:{
+    id_vestigio: {
         type: String,
         required: false
     },
-    id_laudo:{
+    id_laudo: {
         type: String,
         required: true
     },
-    id_bo:{
+    id_bo: {
         type: String,
         required: true
     },
-    id_dp:{
+    id_dp: {
         type: String,
         required: true
     },
-    id_ip_pm:{
+    id_ip_pm: {
         type: String,
         required: true
     },
-    endereco_local_crime:{
-        latitude_local_crime:{
+    endereco_local_crime: {
+        latitude_local_crime: {
             type: Number,
             required: false
         },
-        longitude_local_crime:{
+        longitude_local_crime: {
             type: Number,
             required: false
         },
-        cep_local_crime:{
+        cep_local_crime: {
             type: String,
             required: false
         },
-        endereco_local_crime:{
+        endereco_local_crime: {
             type: String,
             required: false
         },
-        numero_local_crime:{
+        numero_local_crime: {
             type: Number,
             required: false
         },
-        cidade_local_crime:{
+        cidade_local_crime: {
             type: String,
             required: false
         },
-        estado_local_crime:{
+        estado_local_crime: {
             type: String,
             required: false
         }
     },
-    tipo_vestigio:{
+    tipo_vestigio: {
         type: String,
         required: true
     },
-    descricao_vestigio:{
+    descricao_vestigio: {
         type: String,
         required: true
     },
-    localizacao_vestigio:{
+    localizacao_vestigio: {
         type: String,
         required: true
     },
-    tipo_amostra:{
+    tipo_amostra: {
         type: String,
         enum: [
             'prova',
@@ -86,11 +86,11 @@ const evidenceSchema =  new Schema({
         required: true,
         default: 'prova'
     },
-    numero_fcc:{
+    numero_fcc: {
         type: String,
         required: true
     },
-    realizacao_pericia:{
+    realizacao_pericia: {
         type: String,
         enum: [
             'já periciado no local',
@@ -100,11 +100,11 @@ const evidenceSchema =  new Schema({
         required: true,
         default: 'a periciar'
     },
-    observacoes:{
+    observacoes: {
         type: String,
         required: false
     },
-    usuarios:[{
+    usuarios: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     }]
