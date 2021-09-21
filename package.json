@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/mrnpinheiro/cadeia-de-custodia#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.7"
   },
   "devDependencies": {
     "jest": "^27.2.0",
