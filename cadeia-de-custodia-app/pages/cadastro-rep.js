@@ -52,9 +52,9 @@ function registroRep(event) {
       city,
       state
     }
-    const rep_str = JSON.stringify(rep)
-    console.log(rep_str)
-    localStorage.setItem("rep", rep_str)
+    const repStr = JSON.stringify(rep)
+    console.log(repStr)
+    localStorage.setItem("rep", repStr)
   }
 
   return <form onSubmit={() => registroRep(event)}>
