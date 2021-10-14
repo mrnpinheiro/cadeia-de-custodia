@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from 'next/router'
-import { toast } from 'react-toastify';
 
+import { toast } from 'react-toastify';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import DatePicker from '@mui/lab/DatePicker';
@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
+import ArrayLocalStorage from '../utils/array-local-storage';
 
 function Home() {
   const [typeOrigin, setTypeOrigin] = React.useState("");
@@ -25,7 +26,7 @@ function Home() {
   const [state, setState] = React.useState("");
   const router = useRouter()
 
-  async function a(lat, lng) {
+  async function setAddressByCoordinates(lat, lng) {
     const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}6&lon=${lng}`);
 
     const address = response.data.address;
@@ -46,12 +47,12 @@ function Home() {
     navigator.geolocation.getCurrentPosition(function (position) {
       setCoordinates(`lat: ${position.coords.latitude}; long: ${position.coords.longitude}`);
       console.log(position);
-      a(position.coords.latitude, position.coords.longitude);
+      setAddressByCoordinates(position.coords.latitude, position.coords.longitude);
     }, (error) => console.log(error), options);
   }, []);
 
 function registroRep(event) {
-    event.preventDefault()
+    event.preventDefault();
     const rep = {
       typeOrigin,
       numberOrigin,
@@ -63,10 +64,9 @@ function registroRep(event) {
       district,
       city,
       state
-    }
-    const repStr = JSON.stringify(rep)
-    console.log(repStr)
-    localStorage.setItem("rep", repStr)
+    };
+
+    ArrayLocalStorage.push("reps", rep);
     toast.success("Rep cadastrada com sucesso!", {
       position: "top-right",
       autoClose: 5000,
@@ -76,7 +76,7 @@ function registroRep(event) {
       draggable: true,
       progress: undefined,
     });
-    router.push('/')
+    router.push('/');
   }
 
   return <form onSubmit={() => registroRep(event)}>

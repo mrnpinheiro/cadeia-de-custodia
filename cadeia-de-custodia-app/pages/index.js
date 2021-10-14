@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -8,10 +9,14 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import CreateIcon from '@mui/icons-material/Create';
 
+import ArrayLocalStorage from '../utils/array-local-storage';
+
 export default function Home() {
   React.useEffect(() => {
-    const reps = JSON.parse(localStorage.getItem('rep'));
-    setListReps([reps]);
+    const reps = ArrayLocalStorage.get("reps");
+    if (reps) {
+      setListReps(reps);
+    }
   }, []);
 
   const [listReps, setListReps] = React.useState([]);
@@ -32,12 +37,12 @@ export default function Home() {
   return (
     <div>
       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-        {listReps.map((value) => {
+        {listReps.map((value, index) => {
           const labelId = `checkbox-list-label-${value}`;
 
           return (
             <ListItem
-              key={value}
+              key={index}
               secondaryAction={
                 <IconButton edge="end" aria-label="comments">
                   <CreateIcon />
