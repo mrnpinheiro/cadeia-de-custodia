@@ -10,6 +10,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -36,6 +39,17 @@ function MyApp({ Component, pageProps }) {
           </Toolbar>
         </AppBar>
       </Box>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Component {...pageProps} />
     </ThemeProvider>
   </LocalizationProvider>;

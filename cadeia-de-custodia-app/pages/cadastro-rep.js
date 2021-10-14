@@ -1,4 +1,6 @@
 import React from "react";
+import { useRouter } from 'next/router'
+import { toast } from 'react-toastify';
 
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -9,13 +11,19 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
+
 function Home() {
+  const [typeOrigin, setTypeOrigin] = React.useState("");
+  const [numberOrigin, setNumberOrigin] = React.useState("");
+  const [yearOrigin, setYearOrigin] = React.useState(new Date());
+  const [foundation, setFoundation] = React.useState("");
   const [coordinates, setCoordinates] = React.useState("");
   const [street, setStreet] = React.useState("");
   const [number, setNumber] = React.useState("");
   const [district, setDistrict] = React.useState("");
   const [city, setCity] = React.useState("");
   const [state, setState] = React.useState("");
+  const router = useRouter()
 
   async function a(lat, lng) {
     const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}6&lon=${lng}`);
@@ -45,6 +53,10 @@ function Home() {
 function registroRep(event) {
     event.preventDefault()
     const rep = {
+      typeOrigin,
+      numberOrigin,
+      foundation,
+      yearOrigin,
       coordinates,
       street,
       number,
@@ -55,6 +67,16 @@ function registroRep(event) {
     const repStr = JSON.stringify(rep)
     console.log(repStr)
     localStorage.setItem("rep", repStr)
+    toast.success("Rep cadastrada com sucesso!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    router.push('/')
   }
 
   return <form onSubmit={() => registroRep(event)}>
@@ -66,23 +88,37 @@ function registroRep(event) {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <TextField label="Nº B.O." variant="outlined" fullWidth />
+          <TextField
+            label="Tipo de Origem"
+            value={typeOrigin}
+            onChange={e => setTypeOrigin(e.target.value)}
+            variant="outlined" fullWidth
+          />
         </Grid>
         <Grid item xs={12}>
-          <TextField label="[N°]  D.P. - [Cidade]" variant="outlined" fullWidth />
+          <TextField
+            label="Número da Origem"
+            value={numberOrigin}
+            onChange={e => setNumberOrigin(e.target.value)}
+            variant="outlined" fullWidth
+          />
         </Grid>
         <Grid item xs={12}>
-          <TextField label="Nº IP/PM" variant="outlined" fullWidth />
+          <TextField
+            label="Órgão"
+            value={foundation}
+            onChange={e => setFoundation(e.target.value)}
+            variant="outlined" fullWidth
+          />
         </Grid>
         <Grid item xs={12}>
           <DatePicker
             views={['year']}
-            label="Ano"
+            label="Ano da Origem"
+            value={yearOrigin}
+            onChange={e => setYearOrigin(e.target.value)}
             variant="outlined"
             fullWidth
-            onChange={(newValue) => {
-              setValue(newValue);
-            }}
             renderInput={(params) => <TextField {...params} helperText={null} />}
           />
         </Grid>
