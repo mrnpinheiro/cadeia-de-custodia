@@ -13,6 +13,13 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import DeleteIcon from '@mui/icons-material/Delete';
+import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
+import SyncIcon from '@mui/icons-material/Sync';
+import { styled } from '@mui/material/styles';
+import Divider from '@mui/material/Divider';
 
 import ArrayLocalStorage from '../utils/array-local-storage';
 
@@ -21,6 +28,52 @@ const fabStyle = {
   bottom: 16,
   right: 16,
 };
+
+function ActionButtons(props) {
+  return (
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="center"
+      divider={<Divider orientation="vertical" flexItem />}
+      spacing={2}
+    >
+      <label htmlFor="icon-button-file">
+        <IconButton
+          color="primary"
+          aria-label="archive rep"
+          component="span"
+          size="large"
+          onClick={props.handleArchieve}
+        >
+          <MoveToInboxIcon />
+        </IconButton>
+      </label>
+      <label htmlFor="icon-button-file">
+        <IconButton
+          color="primary"
+          aria-label="delete rep"
+          component="span"
+          size="large"
+          onClick={props.handleDelete}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </label>
+      <label htmlFor="icon-button-file">
+        <IconButton
+          color="primary"
+          aria-label="synchronize rep"
+          component="span"
+          size="large"
+          onClick={props.handleSynchronize}
+        >
+          <SyncIcon />
+        </IconButton>
+      </label>
+    </Stack>
+  );
+}
 
 export default function Home() {
   React.useEffect(() => {
@@ -31,20 +84,33 @@ export default function Home() {
   }, []);
 
   const [listReps, setListReps] = React.useState([]);
-  const [checked, setChecked] = React.useState([0]);
+  const [listCheckeds, setlistCheckeds] = React.useState([]);
 
   const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+    const currentIndex = listCheckeds.indexOf(value);
+    const newlistCheckeds = [...listCheckeds];
 
     if (currentIndex === -1) {
-      newChecked.push(value);
+      newlistCheckeds.push(value);
     } else {
-      newChecked.splice(currentIndex, 1);
+      newlistCheckeds.splice(currentIndex, 1);
     }
 
-    setChecked(newChecked);
+    setlistCheckeds(newlistCheckeds);
   };
+
+  const handleArchieve = () => {
+    console.log(listCheckeds)
+  };
+
+  const handleDelete = () => {
+    console.log(listCheckeds)
+  };
+
+  const handleSynchronize = () => {
+    console.log(listCheckeds)
+  };
+
   return (
     <Box
       sx={{
@@ -57,12 +123,28 @@ export default function Home() {
         Lista de REPs Virtuais
       </Typography>
       {
+        listCheckeds.length > 0 ? (
+          <ActionButtons
+            handleArchieve={handleArchieve}
+            handleDelete={handleDelete}
+            handleSynchronize={handleSynchronize}
+          ></ActionButtons>
+        ):(<></>)
+      }
+      {
         !listReps || listReps.length === 0 ? (
           <Typography variant="body1" component="h5" gutterBottom>
-            Nenhuma REP cadastrada
+            &lt; Nenhuma REP cadastrada &gt;
           </Typography>
         ) : (
-          <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+          <List sx={{
+              width: '100%',
+              maxWidth: 360,
+              bgcolor: 'background.paper',
+              position: 'absolute',
+              top: '150px',
+              right: '0px'
+            }}>
             {listReps.map((value, index) => {
               const labelId = `checkbox-list-label-${value}`;
 
@@ -80,7 +162,7 @@ export default function Home() {
                     <ListItemIcon>
                       <Checkbox
                         edge="start"
-                        checked={checked.indexOf(value) !== -1}
+                        checked={listCheckeds.indexOf(value) !== -1}
                         tabIndex={-1}
                         disableRipple
                         inputProps={{ 'aria-labelledby': labelId }}
