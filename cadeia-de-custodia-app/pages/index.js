@@ -13,8 +13,17 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import Stack from '@mui/material/Stack';
+import DeleteIcon from '@mui/icons-material/Delete';
+import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
+import SyncIcon from '@mui/icons-material/Sync';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
 
-import ArrayLocalStorage from '../utils/array-local-storage';
+import JSONLocalStorage from '../utils/json-local-storage';
 
 const fabStyle = {
   position: 'absolute',
@@ -22,29 +31,131 @@ const fabStyle = {
   right: 16,
 };
 
+function AlertDialog({isOpen, setIsOpen, onConfirm}) {
+  return (
+    <div>
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          <Typography variant="body1">
+            Deseja mesmo deletar essas REPs?
+          </Typography>
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setIsOpen(false)}>Não</Button>
+          <Button onClick={() => onConfirm()} autoFocus>
+            Sim
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
+function ActionButtons(props) {
+  return (
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="center"
+      divider={<Divider orientation="vertical" flexItem />}
+      spacing={2}
+    >
+      <label htmlFor="icon-button-file">
+        <IconButton
+          color="primary"
+          aria-label="archive rep"
+          component="span"
+          size="large"
+          onClick={props.handleArchieve}
+        >
+          <MoveToInboxIcon />
+        </IconButton>
+      </label>
+      <label htmlFor="icon-button-file">
+        <IconButton
+          color="primary"
+          aria-label="delete rep"
+          component="span"
+          size="large"
+          onClick={props.handleDelete}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </label>
+      <label htmlFor="icon-button-file">
+        <IconButton
+          color="primary"
+          aria-label="synchronize rep"
+          component="span"
+          size="large"
+          onClick={props.handleSynchronize}
+        >
+          <SyncIcon />
+        </IconButton>
+      </label>
+    </Stack>
+  );
+}
+
 export default function Home() {
   React.useEffect(() => {
-    const reps = ArrayLocalStorage.get("reps");
+    const reps = JSONLocalStorage.get("reps");
     if (reps) {
       setListReps(reps);
     }
   }, []);
 
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [listReps, setListReps] = React.useState([]);
-  const [checked, setChecked] = React.useState([0]);
+  const [listCheckeds, setlistCheckeds] = React.useState([]);
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+  function handleToggle(selectedIndex) {
+    const newlistCheckeds = [...listCheckeds];
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
+    if (!newlistCheckeds.includes(selectedIndex)) {
+      newlistCheckeds.push(selectedIndex);
     } else {
-      newChecked.splice(currentIndex, 1);
+      // Remove select index from checked list
+      newlistCheckeds.splice(newlistCheckeds.indexOf(selectedIndex), 1);
     }
 
-    setChecked(newChecked);
+    setlistCheckeds(newlistCheckeds);
   };
+
+  const handleArchieve = () => {
+    const listRepsCopy = [...listReps]
+    for (const checked of listCheckeds) {
+      listRepsCopy[checked].flagStatus = 1;
+    }
+
+    setListReps(listRepsCopy);
+    JSONLocalStorage.add("reps", listReps);
+  };
+
+  function handleDelete() {
+    setIsModalOpen(true);
+  };
+
+  function deleteRep() {
+    const listRepsCopy = [...listReps]
+    for (const checked of listCheckeds) {
+      listRepsCopy[checked].flagStatus = 2;
+    }
+
+    setListReps(listRepsCopy);
+    JSONLocalStorage.add("reps", listReps);
+    setIsModalOpen(false);
+  };
+
+  function handleSynchronize() {
+    alert('Não implementado');
+  };
+
   return (
     <Box
       sx={{
@@ -57,42 +168,60 @@ export default function Home() {
         Lista de REPs Virtuais
       </Typography>
       {
+        listCheckeds.length > 0 ? (
+          <ActionButtons
+            handleArchieve={handleArchieve}
+            handleDelete={handleDelete}
+            handleSynchronize={handleSynchronize}
+          ></ActionButtons>
+        ):(<></>)
+      }
+      {
         !listReps || listReps.length === 0 ? (
           <Typography variant="body1" component="h5" gutterBottom>
-            Nenhuma REP cadastrada
+            &lt; Nenhuma REP cadastrada &gt;
           </Typography>
         ) : (
-          <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+          <List sx={{
+              width: '100%',
+              maxWidth: 360,
+              bgcolor: 'background.paper',
+              position: 'absolute',
+              top: '150px',
+              right: '0px'
+            }}>
             {listReps.map((value, index) => {
               const labelId = `checkbox-list-label-${value}`;
 
-              return (
-                <ListItem
-                  key={index}
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="comments">
-                      <CreateIcon />
-                    </IconButton>
-                  }
-                  disablePadding
-                >
-                  <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
-                    <ListItemIcon>
-                      <Checkbox
-                        edge="start"
-                        checked={checked.indexOf(value) !== -1}
-                        tabIndex={-1}
-                        disableRipple
-                        inputProps={{ 'aria-labelledby': labelId }}
+              if (value.flagStatus === 0) {
+                return (
+                  <ListItem
+                    key={index}
+                    secondaryAction={
+                      <IconButton edge="end" aria-label="comments">
+                        <CreateIcon />
+                      </IconButton>
+                    }
+                    disablePadding
+                  >
+                    <ListItemButton onClick={() => handleToggle(index)} dense>
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          checked={listCheckeds.includes(index)}
+                          tabIndex={-1}
+                          disableRipple
+                          inputProps={{ 'aria-labelledby': labelId }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        id={labelId}
+                        primary={`${value.typeOrigin} - ${value.numberOrigin} - ${value.foundation}`}
                       />
-                    </ListItemIcon>
-                    <ListItemText
-                      id={labelId}
-                      primary={`${value.typeOrigin} - ${value.numberOrigin} - ${value.foundation}`}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              );
+                    </ListItemButton>
+                  </ListItem>
+                );
+              }
             })}
           </List>
         )
@@ -102,6 +231,7 @@ export default function Home() {
           <AddIcon />
         </Fab>
       </Link>
+      <AlertDialog isOpen={isModalOpen} setIsOpen={setIsModalOpen} onConfirm={deleteRep}></AlertDialog>
     </Box>
   );
 }

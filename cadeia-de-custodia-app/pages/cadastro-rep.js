@@ -24,6 +24,7 @@ function Home() {
   const [district, setDistrict] = React.useState("");
   const [city, setCity] = React.useState("");
   const [state, setState] = React.useState("");
+
   const router = useRouter()
 
   async function setAddressByCoordinates(lat, lng) {
@@ -63,7 +64,8 @@ function registroRep(event) {
       number,
       district,
       city,
-      state
+      state,
+      flagStatus: 0 // 0: Active, 1: Achieved, 2: Deleted
     };
 
     ArrayLocalStorage.push("reps", rep);
