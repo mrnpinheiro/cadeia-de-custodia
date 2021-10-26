@@ -13,21 +13,48 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
 import SyncIcon from '@mui/icons-material/Sync';
-import { styled } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
 
-import ArrayLocalStorage from '../utils/array-local-storage';
+import JSONLocalStorage from '../utils/json-local-storage';
 
 const fabStyle = {
   position: 'absolute',
   bottom: 16,
   right: 16,
 };
+
+function AlertDialog({isOpen, setIsOpen, onConfirm}) {
+  return (
+    <div>
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          <Typography variant="body1">
+            Deseja mesmo deletar essas REPs?
+          </Typography>
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setIsOpen(false)}>Não</Button>
+          <Button onClick={() => onConfirm()} autoFocus>
+            Sim
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
 
 function ActionButtons(props) {
   return (
@@ -77,38 +104,56 @@ function ActionButtons(props) {
 
 export default function Home() {
   React.useEffect(() => {
-    const reps = ArrayLocalStorage.get("reps");
+    const reps = JSONLocalStorage.get("reps");
     if (reps) {
       setListReps(reps);
     }
   }, []);
 
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [listReps, setListReps] = React.useState([]);
   const [listCheckeds, setlistCheckeds] = React.useState([]);
 
-  const handleToggle = (value) => () => {
-    const currentIndex = listCheckeds.indexOf(value);
+  function handleToggle(selectedIndex) {
     const newlistCheckeds = [...listCheckeds];
 
-    if (currentIndex === -1) {
-      newlistCheckeds.push(value);
+    if (!newlistCheckeds.includes(selectedIndex)) {
+      newlistCheckeds.push(selectedIndex);
     } else {
-      newlistCheckeds.splice(currentIndex, 1);
+      // Remove select index from checked list
+      newlistCheckeds.splice(newlistCheckeds.indexOf(selectedIndex), 1);
     }
 
     setlistCheckeds(newlistCheckeds);
   };
 
   const handleArchieve = () => {
-    console.log(listCheckeds)
+    const listRepsCopy = [...listReps]
+    for (const checked of listCheckeds) {
+      listRepsCopy[checked].flagStatus = 1;
+    }
+
+    setListReps(listRepsCopy);
+    JSONLocalStorage.add("reps", listReps);
   };
 
-  const handleDelete = () => {
-    console.log(listCheckeds)
+  function handleDelete() {
+    setIsModalOpen(true);
   };
 
-  const handleSynchronize = () => {
-    console.log(listCheckeds)
+  function deleteRep() {
+    const listRepsCopy = [...listReps]
+    for (const checked of listCheckeds) {
+      listRepsCopy[checked].flagStatus = 2;
+    }
+
+    setListReps(listRepsCopy);
+    JSONLocalStorage.add("reps", listReps);
+    setIsModalOpen(false);
+  };
+
+  function handleSynchronize() {
+    alert('Não implementado');
   };
 
   return (
@@ -148,33 +193,35 @@ export default function Home() {
             {listReps.map((value, index) => {
               const labelId = `checkbox-list-label-${value}`;
 
-              return (
-                <ListItem
-                  key={index}
-                  secondaryAction={
-                    <IconButton edge="end" aria-label="comments">
-                      <CreateIcon />
-                    </IconButton>
-                  }
-                  disablePadding
-                >
-                  <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
-                    <ListItemIcon>
-                      <Checkbox
-                        edge="start"
-                        checked={listCheckeds.indexOf(value) !== -1}
-                        tabIndex={-1}
-                        disableRipple
-                        inputProps={{ 'aria-labelledby': labelId }}
+              if (value.flagStatus === 0) {
+                return (
+                  <ListItem
+                    key={index}
+                    secondaryAction={
+                      <IconButton edge="end" aria-label="comments">
+                        <CreateIcon />
+                      </IconButton>
+                    }
+                    disablePadding
+                  >
+                    <ListItemButton onClick={() => handleToggle(index)} dense>
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          checked={listCheckeds.includes(index)}
+                          tabIndex={-1}
+                          disableRipple
+                          inputProps={{ 'aria-labelledby': labelId }}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        id={labelId}
+                        primary={`${value.typeOrigin} - ${value.numberOrigin} - ${value.foundation}`}
                       />
-                    </ListItemIcon>
-                    <ListItemText
-                      id={labelId}
-                      primary={`${value.typeOrigin} - ${value.numberOrigin} - ${value.foundation}`}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              );
+                    </ListItemButton>
+                  </ListItem>
+                );
+              }
             })}
           </List>
         )
@@ -184,6 +231,7 @@ export default function Home() {
           <AddIcon />
         </Fab>
       </Link>
+      <AlertDialog isOpen={isModalOpen} setIsOpen={setIsModalOpen} onConfirm={deleteRep}></AlertDialog>
     </Box>
   );
 }
