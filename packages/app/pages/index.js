@@ -192,7 +192,6 @@ export default function Home() {
             }}>
             {listReps.map((value, index) => {
               const labelId = `checkbox-list-label-${value}`;
-
               if (value.flagStatus === 0) {
                 return (
                   <ListItem
@@ -214,10 +213,14 @@ export default function Home() {
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </ListItemIcon>
-                      <ListItemText
-                        id={labelId}
-                        primary={`${value.typeOrigin} - ${value.numberOrigin} - ${value.foundation}`}
-                      />
+                      <Link href={`/rep/${value.id}`}>
+                        <ListItemText
+                          id={labelId}
+                          primary={
+                            `${value.typeOrigin} - ${value.numberOrigin} - ${value.foundation}`
+                          }
+                        />
+                      </Link>
                     </ListItemButton>
                   </ListItem>
                 );

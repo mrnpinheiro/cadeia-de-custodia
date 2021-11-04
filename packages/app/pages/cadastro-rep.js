@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from 'next/router'
-
 import { toast } from 'react-toastify';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -55,6 +54,7 @@ function Home() {
 function registroRep(event) {
     event.preventDefault();
     const rep = {
+      id: Date.now(),
       typeOrigin,
       numberOrigin,
       foundation,
