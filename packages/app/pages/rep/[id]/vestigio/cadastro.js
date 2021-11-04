@@ -78,7 +78,7 @@ function registroVestige(event) {
       draggable: true,
       progress: undefined,
     });
-    router.push('/rep/1');
+    router.push(`/rep/${idRep}`);
   }
 
   return <form onSubmit={() => registroVestige(event)}>
