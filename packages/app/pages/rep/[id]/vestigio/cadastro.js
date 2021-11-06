@@ -65,7 +65,8 @@ function registroVestige(event) {
       city,
       state,
       photo,
-      file
+      file,
+      idRep
     };
 
     ArrayLocalStorage.push("vestiges", vestige);

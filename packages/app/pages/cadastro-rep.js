@@ -20,6 +20,7 @@ function Home() {
   const [coordinates, setCoordinates] = React.useState("");
   const [street, setStreet] = React.useState("");
   const [number, setNumber] = React.useState("");
+  const [complement, setComplement] = React.useState("");
   const [district, setDistrict] = React.useState("");
   const [city, setCity] = React.useState("");
   const [state, setState] = React.useState("");
@@ -62,6 +63,7 @@ function registroRep(event) {
       coordinates,
       street,
       number,
+      complement,
       district,
       city,
       state,
@@ -155,6 +157,9 @@ function registroRep(event) {
         <Grid item xs={8}>
           <TextField
             label="Complemento"
+            value={complement}setComplement
+            onChange={e => setComplement(e.target.value)}
+            type="text"
             variant="outlined"
             fullWidth
           />
