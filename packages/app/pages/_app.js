@@ -39,7 +39,7 @@ const sidebarItems = [
     name: 'Cadastro de REP',
     path: '/cadastro-rep',
   }
-]
+];
 
 function MyApp({ Component, pageProps }) {
   const [sidebarIsOpen, setSidebarIsOpen] = React.useState(false);

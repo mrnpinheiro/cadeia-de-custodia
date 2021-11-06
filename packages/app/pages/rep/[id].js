@@ -1,5 +1,6 @@
 import React from "react";
-import { useRouter } from 'next/router'
+import Link from 'next/link';
+
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
@@ -118,7 +119,7 @@ function viewRep({foundRep, foundVestiges}) {
 				})}
 			</ Grid>
 		</>}
-	</>
+	</>;
 }
 
 export async function getStaticProps({params}) {
@@ -133,14 +134,14 @@ export async function getStaticProps({params}) {
       foundRep,
 			foundVestiges
     },
-  }
+  };
 }
 
 export async function getStaticPaths() {
 	const reps = JSONLocalStorage.get("reps");
 	const repsId = reps.map(item => item.id);
 
-  return { paths: repsId, fallback: true }
+  return { paths: repsId, fallback: true };
 }
 
 export default viewRep;

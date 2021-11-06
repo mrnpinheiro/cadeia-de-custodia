@@ -1,5 +1,5 @@
 import React from "react";
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -25,7 +25,7 @@ function Home() {
   const [city, setCity] = React.useState("");
   const [state, setState] = React.useState("");
 
-  const router = useRouter()
+  const router = useRouter();
 
   async function setAddressByCoordinates(lat, lng) {
     const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}6&lon=${lng}`);

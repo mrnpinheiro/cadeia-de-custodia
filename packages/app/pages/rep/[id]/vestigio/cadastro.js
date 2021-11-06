@@ -25,19 +25,19 @@ const Input = styled('input')({
 
 
 function CadastroVestigio() {
-  const router = useRouter()
-  const idRep = router.query.id
+  const router = useRouter();
+  const idRep = router.query.id;
 
   React.useEffect(() => {
     const reps = JSONLocalStorage.get("reps");
     const foundRep = reps.find(rep => rep.id === idRep);
-    setRep(foundRep)
-    setCoordinates(foundRep.coordinates)
-    setStreet(foundRep.street)
-    setNumber(foundRep.number)
-    setDistrict(foundRep.district)
-    setCity(foundRep.city)
-    setState(foundRep.state)
+    setRep(foundRep);
+    setCoordinates(foundRep.coordinates);
+    setStreet(foundRep.street);
+    setNumber(foundRep.number);
+    setDistrict(foundRep.district);
+    setCity(foundRep.city);
+    setState(foundRep.state);
   }, []);
 
   const [rep, setRep] = React.useState([]);

@@ -128,7 +128,7 @@ export default function Home() {
   };
 
   const handleArchieve = () => {
-    const listRepsCopy = [...listReps]
+    const listRepsCopy = [...listReps];
     for (const checked of listCheckeds) {
       listRepsCopy[checked].flagStatus = 1;
     }
@@ -142,7 +142,7 @@ export default function Home() {
   };
 
   function deleteRep() {
-    const listRepsCopy = [...listReps]
+    const listRepsCopy = [...listReps];
     for (const checked of listCheckeds) {
       listRepsCopy[checked].flagStatus = 2;
     }
