@@ -71,7 +71,7 @@ function registroRep(event) {
     };
 
     ArrayLocalStorage.push("reps", rep);
-    toast.success("Rep cadastrada com sucesso!", {
+    toast.success("Rep atualizada com sucesso!", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -202,7 +202,7 @@ function registroRep(event) {
         </Grid>
       </Grid>
       <Grid container sx={{ px: 2, pb: 2 }}>
-        <Button variant="contained" size="large" fullWidth type="submit">Cadastrar REP</Button>
+        <Button variant="contained" size="large" fullWidth type="submit">Atualizar REP</Button>
       </Grid>
     </FormControl>
   </form>;

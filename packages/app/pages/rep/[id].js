@@ -106,7 +106,11 @@ function viewRep() {
 							key={index}
 							secondaryAction={
 								<IconButton edge="end" aria-label="comments">
-									<CreateIcon />
+									<Link href={
+										`/rep/${vestige.idRep}/vestigio/${vestige.idVestige}/edit`
+									}>
+										<CreateIcon />
+									</ Link>
 								</IconButton>
 							}
 							disablePadding

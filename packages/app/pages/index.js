@@ -198,21 +198,23 @@ export default function Home() {
                     key={index}
                     secondaryAction={
                       <IconButton edge="end" aria-label="comments">
-                        <CreateIcon />
+                        <Link href={`/rep/${value.id}/edit`}>
+                          <CreateIcon />
+                        </ Link>
                       </IconButton>
                     }
                     disablePadding
                   >
                     <ListItemButton onClick={() => handleToggle(index)} dense>
-                      <ListItemIcon>
-                        <Checkbox
-                          edge="start"
-                          checked={listCheckeds.includes(index)}
-                          tabIndex={-1}
-                          disableRipple
-                          inputProps={{ 'aria-labelledby': labelId }}
-                        />
-                      </ListItemIcon>
+                        <ListItemIcon>
+                          <Checkbox
+                            edge="start"
+                            checked={listCheckeds.includes(index)}
+                            tabIndex={-1}
+                            disableRipple
+                            inputProps={{ 'aria-labelledby': labelId }}
+                          />
+                        </ListItemIcon>
                       <Link href={`/rep/${value.id}`}>
                         <ListItemText
                           id={labelId}
