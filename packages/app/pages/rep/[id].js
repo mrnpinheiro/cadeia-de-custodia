@@ -1,6 +1,7 @@
 import React from "react";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import moment from "moment";
 
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -10,10 +11,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import CreateIcon from '@mui/icons-material/Create';
+import AddIcon from '@mui/icons-material/Add';
 
 import ArrayLocalStorage from '../../utils/array-local-storage';
 
-function ViewRep() {
+function viewRep() {
 	const router = useRouter();
   const { id } = router.query;
   const idRep = +id;
@@ -28,7 +30,7 @@ function ViewRep() {
 		setRep(foundRep);
 
 		const savedVestiges = ArrayLocalStorage.get("vestiges");
-		const foundVestiges = savedVestiges.filter(item => item.idRep === idRep);
+		const foundVestiges = savedVestiges.filter(item => parseInt(item.idRep) === idRep);
 		setVestiges(foundVestiges);
   }, [idRep]);
 
@@ -46,55 +48,35 @@ function ViewRep() {
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">
-						{rep.numberOrigin}
+						<b>Número da Origem:</b> {rep.numberOrigin}
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">
-						{rep.foundation}
+						<b>Órgão:</b> {rep.foundation}
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">
-						{rep.yearOrigin}
+						<b>Ano da Origem:</b> {moment(rep.yearOrigin). format('YYYY')}
 					</Typography>
 				</Grid>
 			</Grid>
 			<Divider />
 			<Grid container spacing={2} sx={{ p: 2 }}>
 				<Grid item xs={12}>
-					<Typography variant="body1">
-						Local Perícia:
+					<Typography variant="h6">
+						<b>Local Perícia</b>
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">
-						{rep.street}
-					</Typography>
-				</Grid>
-				<Grid item xs={4}>
-					<Typography variant="body1">
-						{rep.number}
-					</Typography>
-				</Grid>
-				<Grid item xs={8}>
-					<Typography variant="body1">
-						{rep.complement}
+						{rep.street}, {rep.number} {rep.complement}
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">
-						{rep.district}
-					</Typography>
-				</Grid>
-				<Grid item xs={8}>
-					<Typography variant="body1">
-						{rep.city}
-					</Typography>
-				</Grid>
-				<Grid item xs={4}>
-					<Typography variant="body1">
-						{rep.state}
+						{rep.district} - {rep.city} - {rep.state}
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
@@ -107,7 +89,14 @@ function ViewRep() {
 			<Grid container spacing={2} sx={{ p: 2 }}>
 				<Grid item xs={12}>
 					<Typography variant="h5">
-						<b>Vestigío</b>
+						<div>
+							<b>Vestígio(s)</b>
+							<Link href={`/rep/${idRep}/vestigio/cadastro`}>
+								<IconButton aria-label="add" color="primary">
+									<AddIcon />
+								</IconButton>
+							</Link>
+						</div>
 					</Typography>
 				</Grid>
 				{vestiges.map((vestige, index) => {
@@ -139,4 +128,4 @@ function ViewRep() {
 		</> : <></>;
 }
 
-export default ViewRep;
+export default viewRep;

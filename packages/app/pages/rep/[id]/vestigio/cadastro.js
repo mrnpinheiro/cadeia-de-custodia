@@ -72,7 +72,7 @@ function registerVestige(event) {
     };
 
     ArrayLocalStorage.push("vestiges", vestige);
-    toast.success("Vestígio cadastrada com sucesso!", {
+    toast.success("Vestígio cadastrado com sucesso!", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
