@@ -184,18 +184,16 @@ export default function Home() {
         ) : (
           <List sx={{
               width: '100%',
-              maxWidth: 360,
+              maxWidth: '100%',
               bgcolor: 'background.paper',
-              position: 'absolute',
-              top: '150px',
-              right: '0px'
-            }}>
+          }}>
             {listReps.map((value, index) => {
               const labelId = `checkbox-list-label-${value}`;
               if (value.flagStatus === 0) {
                 return (
                   <ListItem
                     key={index}
+                    alignItems="flex-start"
                     secondaryAction={
                       <IconButton edge="end" aria-label="comments">
                         <Link href={`/rep/${value.id}/edit`}>
