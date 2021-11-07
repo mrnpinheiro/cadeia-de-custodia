@@ -1,5 +1,6 @@
 import React from "react";
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
@@ -10,11 +11,28 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import CreateIcon from '@mui/icons-material/Create';
 
-import JSONLocalStorage from '../../utils/json-local-storage';
+import ArrayLocalStorage from '../../utils/array-local-storage';
 
-function viewRep({foundRep, foundVestiges}) {
-  return <>
-		{foundRep && <>
+function ViewRep() {
+	const router = useRouter();
+  const { id } = router.query;
+  const idRep = +id;
+
+  const [rep, setRep] = React.useState();
+  const [vestiges, setVestiges] = React.useState();
+
+  React.useEffect(() => {
+		if (!idRep) return;
+		const savedReps = ArrayLocalStorage.get("reps");
+		const foundRep = savedReps.find(item => item.id === idRep);
+		setRep(foundRep);
+
+		const savedVestiges = ArrayLocalStorage.get("vestiges");
+		const foundVestiges = savedVestiges.filter(item => item.idRep === idRep);
+		setVestiges(foundVestiges);
+  }, [idRep]);
+
+  return rep ? <>
 			<Grid container spacing={2} sx={{ p: 2 }}>
 				<Grid item xs={12}>
 					<Typography variant="h5">
@@ -23,22 +41,22 @@ function viewRep({foundRep, foundVestiges}) {
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">
-						<b>Tipo de Origem:</b> {foundRep.typeOrigin}
+						<b>Tipo de Origem:</b> {rep.typeOrigin}
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">
-						{foundRep.numberOrigin}
+						{rep.numberOrigin}
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">
-						{foundRep.foundation}
+						{rep.foundation}
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">
-						{foundRep.yearOrigin}
+						{rep.yearOrigin}
 					</Typography>
 				</Grid>
 			</Grid>
@@ -51,37 +69,37 @@ function viewRep({foundRep, foundVestiges}) {
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">
-						{foundRep.street}
+						{rep.street}
 					</Typography>
 				</Grid>
 				<Grid item xs={4}>
 					<Typography variant="body1">
-						{foundRep.number}
+						{rep.number}
 					</Typography>
 				</Grid>
 				<Grid item xs={8}>
 					<Typography variant="body1">
-						{foundRep.complement}
+						{rep.complement}
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">
-						{foundRep.district}
+						{rep.district}
 					</Typography>
 				</Grid>
 				<Grid item xs={8}>
 					<Typography variant="body1">
-						{foundRep.city}
+						{rep.city}
 					</Typography>
 				</Grid>
 				<Grid item xs={4}>
 					<Typography variant="body1">
-						{foundRep.state}
+						{rep.state}
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">
-						{foundRep.coordinates}
+						{rep.coordinates}
 					</Typography>
 				</Grid>
 			</Grid>
@@ -92,7 +110,7 @@ function viewRep({foundRep, foundVestiges}) {
 						<b>Vestigío</b>
 					</Typography>
 				</Grid>
-				{foundVestiges.map((vestige, index) => {
+				{vestiges.map((vestige, index) => {
 					const labelId = `checkbox-list-label-${index}`;
 					return (
 						<ListItem
@@ -118,30 +136,7 @@ function viewRep({foundRep, foundVestiges}) {
 					);
 				})}
 			</ Grid>
-		</>}
-	</>;
+		</> : <></>;
 }
 
-export async function getStaticProps({params}) {
-	const reps = JSONLocalStorage.get("reps");
-	const foundRep = reps.find(item => item.id === params.id);
-
-	const vestiges = JSONLocalStorage.get("vestiges");
-	const foundVestiges = vestiges.filter(item => item.idRep === params.id);
-
-  return {
-    props: {
-      foundRep,
-			foundVestiges
-    },
-  };
-}
-
-export async function getStaticPaths() {
-	const reps = JSONLocalStorage.get("reps");
-	const repsId = reps.map(item => item.id);
-
-  return { paths: repsId, fallback: true };
-}
-
-export default viewRep;
+export default ViewRep;

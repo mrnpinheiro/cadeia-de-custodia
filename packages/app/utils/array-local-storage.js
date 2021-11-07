@@ -9,7 +9,7 @@ export default class ArrayLocalStorage {
      * @return {object[]}
      */
     static get(key) {
-        return JSONLocalStorage.get(key);
+        return JSONLocalStorage.get(key) || [];
     }
 
     /**

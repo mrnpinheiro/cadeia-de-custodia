@@ -26,11 +26,13 @@ const Input = styled('input')({
 
 function CadastroVestigio() {
   const router = useRouter();
-  const idRep = router.query.id;
+  const { id } = router.query;
+  const idRep = +id;
 
   React.useEffect(() => {
+    if (!idRep) return;
     const reps = JSONLocalStorage.get("reps");
-    const foundRep = reps.find(rep => rep.id === idRep);
+    const foundRep = reps.find(item => item.id === idRep);
     setRep(foundRep);
     setCoordinates(foundRep.coordinates);
     setStreet(foundRep.street);
@@ -38,9 +40,9 @@ function CadastroVestigio() {
     setDistrict(foundRep.district);
     setCity(foundRep.city);
     setState(foundRep.state);
-  }, []);
+  }, [idRep]);
 
-  const [rep, setRep] = React.useState([]);
+  const [rep, setRep] = React.useState();
   const [typeVestige, setTypeVestige] = React.useState("");
   const [classPiece, setClassPiece] = React.useState("");
   const [coordinates, setCoordinates] = React.useState("");
@@ -52,7 +54,7 @@ function CadastroVestigio() {
   const [photo, setPhoto] = React.useState("");
   const [file, setFile] = React.useState("");
 
-function registroVestige(event) {
+function registerVestige(event) {
     event.preventDefault();
     const vestige = {
       idVestige: Date.now(),
@@ -82,7 +84,7 @@ function registroVestige(event) {
     router.push(`/rep/${idRep}`);
   }
 
-  return <form onSubmit={() => registroVestige(event)}>
+  return rep ? <form onSubmit={(event) => registerVestige(event)}>
     <FormControl fullWidth>
       <Grid container spacing={2} sx={{ p: 2 }}>
         <Grid item xs={12}>
@@ -239,7 +241,7 @@ function registroVestige(event) {
         </Button>
       </Grid>
     </FormControl>
-  </form>;
+  </form> : <></>;
 }
 
 export default CadastroVestigio;
