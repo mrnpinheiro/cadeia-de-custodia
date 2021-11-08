@@ -52,7 +52,7 @@ function Home() {
     }, (error) => console.log(error), options);
   }, []);
 
-function registroRep(event) {
+  function registroRep(event) {
     event.preventDefault();
     const rep = {
       id: Date.now(),

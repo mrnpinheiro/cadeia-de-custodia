@@ -54,7 +54,7 @@ function CadastroVestigio() {
   const [photo, setPhoto] = React.useState("");
   const [file, setFile] = React.useState("");
 
-function registerVestige(event) {
+  function registerVestige(event) {
     event.preventDefault();
     const vestige = {
       idVestige: Date.now(),
@@ -205,30 +205,30 @@ function registerVestige(event) {
           <Typography variant="body1">
             Fotos e anexos:
           </Typography>
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <label htmlFor="icon-button-file">
-            <Input
-              value={photo}
-              onChange={e => setPhoto(e.target.value)}
-              accept="image/*"
-              id="icon-button-file"
-              type="file" />
-            <IconButton color="primary" aria-label="upload picture" component="span">
-              <PhotoCamera />
-            </IconButton>
-          </label>
-          <label htmlFor="contained-button-file">
-            <Input
-              value={file}
-              onChange={e => setFile(e.target.value)}
-              accept="image/*"
-              id="contained-button-file"
-              multiple type="file" />
-            <Button variant="contained" component="span">
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <label htmlFor="icon-button-file">
+              <Input
+                value={photo}
+                onChange={e => setPhoto(e.target.value)}
+                accept="image/*"
+                id="icon-button-file"
+                type="file" />
+              <IconButton color="primary" aria-label="upload picture" component="span">
+                <PhotoCamera />
+              </IconButton>
+            </label>
+            <label htmlFor="contained-button-file">
+              <Input
+                value={file}
+                onChange={e => setFile(e.target.value)}
+                accept="image/*"
+                id="contained-button-file"
+                multiple type="file" />
+              <Button variant="contained" component="span">
               Anexar
-            </Button>
-          </label>
-        </Stack>
+              </Button>
+            </label>
+          </Stack>
         </Grid>
       </Grid>
       <Grid container sx={{ px: 2, pb: 2 }}>

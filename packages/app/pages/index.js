@@ -183,9 +183,9 @@ export default function Home() {
           </Typography>
         ) : (
           <List sx={{
-              width: '100%',
-              maxWidth: '100%',
-              bgcolor: 'background.paper',
+            width: '100%',
+            maxWidth: '100%',
+            bgcolor: 'background.paper',
           }}>
             {listReps.map((value, index) => {
               const labelId = `checkbox-list-label-${value}`;
@@ -204,15 +204,15 @@ export default function Home() {
                     disablePadding
                   >
                     <ListItemButton onClick={() => handleToggle(index)} dense>
-                        <ListItemIcon>
-                          <Checkbox
-                            edge="start"
-                            checked={listCheckeds.includes(index)}
-                            tabIndex={-1}
-                            disableRipple
-                            inputProps={{ 'aria-labelledby': labelId }}
-                          />
-                        </ListItemIcon>
+                      <ListItemIcon>
+                        <Checkbox
+                          edge="start"
+                          checked={listCheckeds.includes(index)}
+                          tabIndex={-1}
+                          disableRipple
+                          inputProps={{ 'aria-labelledby': labelId }}
+                        />
+                      </ListItemIcon>
                       <Link href={`/rep/${value.id}`}>
                         <ListItemText
                           id={labelId}

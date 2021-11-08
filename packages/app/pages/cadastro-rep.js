@@ -52,7 +52,7 @@ function Home() {
     }, (error) => console.log(error), options);
   }, []);
 
-function registroRep(event) {
+  function registroRep(event) {
     event.preventDefault();
     const rep = {
       id: Date.now(),
@@ -157,7 +157,7 @@ function registroRep(event) {
         <Grid item xs={8}>
           <TextField
             label="Complemento"
-            value={complement}setComplement
+            value={complement}
             onChange={e => setComplement(e.target.value)}
             type="text"
             variant="outlined"
