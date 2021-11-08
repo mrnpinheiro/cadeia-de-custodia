@@ -128,7 +128,7 @@ export default function Home() {
   };
 
   const handleArchieve = () => {
-    const listRepsCopy = [...listReps]
+    const listRepsCopy = [...listReps];
     for (const checked of listCheckeds) {
       listRepsCopy[checked].flagStatus = 1;
     }
@@ -142,7 +142,7 @@ export default function Home() {
   };
 
   function deleteRep() {
-    const listRepsCopy = [...listReps]
+    const listRepsCopy = [...listReps];
     for (const checked of listCheckeds) {
       listRepsCopy[checked].flagStatus = 2;
     }
@@ -183,22 +183,22 @@ export default function Home() {
           </Typography>
         ) : (
           <List sx={{
-              width: '100%',
-              maxWidth: 360,
-              bgcolor: 'background.paper',
-              position: 'absolute',
-              top: '150px',
-              right: '0px'
-            }}>
+            width: '100%',
+            maxWidth: '100%',
+            bgcolor: 'background.paper',
+          }}>
             {listReps.map((value, index) => {
               const labelId = `checkbox-list-label-${value}`;
               if (value.flagStatus === 0) {
                 return (
                   <ListItem
                     key={index}
+                    alignItems="flex-start"
                     secondaryAction={
                       <IconButton edge="end" aria-label="comments">
-                        <CreateIcon />
+                        <Link href={`/rep/${value.id}/edit`}>
+                          <CreateIcon />
+                        </ Link>
                       </IconButton>
                     }
                     disablePadding

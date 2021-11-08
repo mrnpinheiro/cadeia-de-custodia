@@ -39,7 +39,7 @@ const sidebarItems = [
     name: 'Cadastro de REP',
     path: '/cadastro-rep',
   }
-]
+];
 
 function MyApp({ Component, pageProps }) {
   const [sidebarIsOpen, setSidebarIsOpen] = React.useState(false);
@@ -54,7 +54,7 @@ function MyApp({ Component, pageProps }) {
         {sidebarItems.map((menuItem, index) => (
           <Link href={menuItem.path} key={index}>
             <ListItem button>
-                <ListItemText primary={menuItem.name} />
+              <ListItemText primary={menuItem.name} />
             </ListItem>
           </Link>
         ))}

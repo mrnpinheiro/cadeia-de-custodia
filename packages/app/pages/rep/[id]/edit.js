@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
-import ArrayLocalStorage from '../utils/array-local-storage';
+import ArrayLocalStorage from '../../../utils/array-local-storage';
 
 function Home() {
   const [typeOrigin, setTypeOrigin] = React.useState("");
@@ -71,7 +71,7 @@ function Home() {
     };
 
     ArrayLocalStorage.push("reps", rep);
-    toast.success("Rep cadastrada com sucesso!", {
+    toast.success("Rep atualizada com sucesso!", {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -157,7 +157,7 @@ function Home() {
         <Grid item xs={8}>
           <TextField
             label="Complemento"
-            value={complement}
+            value={complement}setComplement
             onChange={e => setComplement(e.target.value)}
             type="text"
             variant="outlined"
@@ -202,7 +202,7 @@ function Home() {
         </Grid>
       </Grid>
       <Grid container sx={{ px: 2, pb: 2 }}>
-        <Button variant="contained" size="large" fullWidth type="submit">Cadastrar REP</Button>
+        <Button variant="contained" size="large" fullWidth type="submit">Atualizar REP</Button>
       </Grid>
     </FormControl>
   </form>;
