@@ -22,11 +22,15 @@ function RegisterVestige() {
   }, [idRep]);
 
   function registerVestige(vestige) {
-    for (const photo of photos) {
-      db.vestigePhotos.add(photo);
+    if (typeof photos !== 'undefined' && photos.length > 0) {
+      for (const photo of photos) {
+        db.vestigePhotos.add(photo);
+      }
     }
-    for (const attachment of attachments) {
-      db.vestigeAttachments.add(attachment);
+    if (typeof attachments !== 'undefined' && attachments.length > 0) {
+      for (const attachment of attachments) {
+        db.vestigeAttachments.add(attachment);
+      }
     }
 
     ArrayLocalStorage.push("vestiges", vestige);
