@@ -110,9 +110,9 @@ function VestigeForm({rep, onSubmit}) {
       district,
       city,
       state,
-      idRep,
       photoIds: photos.map((photo) => photo.id),
-      attachmentIds: attachments.map((attachment) => attachment.id)
+      attachmentIds: attachments.map((attachment) => attachment.id),
+      idRep: rep.id
     };
     onSubmit(vestige);
   }
