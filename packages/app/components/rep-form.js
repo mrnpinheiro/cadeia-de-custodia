@@ -10,6 +10,10 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
 function RepForm({initialValues, onSubmit}) {
+  if (!initialValues) {
+    initialValues = {};
+  }
+
   const [typeOrigin, setTypeOrigin] = React.useState(initialValues.typeOrigin);
   const [numberOrigin, setNumberOrigin] = React.useState(initialValues.numberOrigin);
   const [yearOrigin, setYearOrigin] = React.useState((initialValues.yearOrigin && new Date(initialValues.yearOrigin)) || new Date());
