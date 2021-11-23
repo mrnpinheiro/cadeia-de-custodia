@@ -12,8 +12,36 @@ import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import CreateIcon from '@mui/icons-material/Create';
 import AddIcon from '@mui/icons-material/Add';
+import Checkbox from '@mui/material/Checkbox';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Stack from '@mui/material/Stack';
+import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
 
 import ArrayLocalStorage from '../../utils/array-local-storage';
+
+function ActionButtons(props) {
+  return (
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="flex-start"
+      divider={<Divider orientation="vertical" flexItem />}
+      spacing={2}
+    >
+      <label htmlFor="icon-button-file">
+        <IconButton
+          color="primary"
+          aria-label="archive vestige"
+          component="span"
+          size="large"
+          onClick={props.handleArchieve}
+        >
+          <MoveToInboxIcon />
+        </IconButton>
+      </label>
+    </Stack>
+  );
+}
 
 function viewRep() {
   const router = useRouter();
@@ -34,6 +62,20 @@ function viewRep() {
     setVestiges(foundVestiges);
   }, [idRep]);
 
+  const handleArchieve = () => {
+    const listRepsCopy = [...listReps];
+    for (const checked of listCheckeds) {
+      listRepsCopy[checked].flagStatus = 1;
+    }
+
+    setListReps(listRepsCopy);
+    JSONLocalStorage.add("reps", listReps);
+  };
+
+  function handleDelete() {
+    setIsModalOpen(true);
+  };
+
   return rep ? <>
     <Grid container spacing={2} sx={{ p: 2 }}>
       <Grid item xs={12}>
@@ -53,12 +95,17 @@ function viewRep() {
       </Grid>
       <Grid item xs={12}>
         <Typography variant="body1">
+          <b>Ano da Origem:</b> {moment(rep.yearOrigin). format('YYYY')}
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <Typography variant="body1">
           <b>Órgão:</b> {rep.foundation}
         </Typography>
       </Grid>
       <Grid item xs={12}>
         <Typography variant="body1">
-          <b>Ano da Origem:</b> {moment(rep.yearOrigin). format('YYYY')}
+          <b>Autoridade Solicitante:</b> {rep.authority}
         </Typography>
       </Grid>
     </Grid>
@@ -97,6 +144,11 @@ function viewRep() {
               </IconButton>
             </Link>
           </div>
+          <div>
+            <ActionButtons
+              handleArchieve={handleArchieve}
+            ></ActionButtons>
+          </div>
         </Typography>
       </Grid>
       {vestiges.map((vestige, index) => {
@@ -116,6 +168,14 @@ function viewRep() {
             disablePadding
           >
             <ListItemButton dense>
+              <ListItemIcon>
+                <Checkbox
+                  edge="start"
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': labelId }}
+                />
+              </ListItemIcon>
               <Link href={`/rep/${vestige.idRep}/vestigio/${vestige.idVestige}`}>
                 <ListItemText
                   id={labelId}

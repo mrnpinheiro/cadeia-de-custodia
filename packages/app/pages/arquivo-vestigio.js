@@ -14,8 +14,8 @@ import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
-import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
-import SyncIcon from '@mui/icons-material/Sync';
+import DeleteIcon from '@mui/icons-material/Delete';
+import UnarchiveIcon from '@mui/icons-material/Unarchive';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -31,9 +31,9 @@ const fabStyle = {
 };
 
 function AlertDialog({isOpen, setIsOpen, onConfirm}) {
-  return (
+	return (
     <div>
-      <Dialog
+    <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
         aria-labelledby="alert-dialog-title"
@@ -64,33 +64,33 @@ function ActionButtons(props) {
       divider={<Divider orientation="vertical" flexItem />}
       spacing={2}
     >
-      <label htmlFor="icon-button-file">
+			<label htmlFor="icon-button-file">
         <IconButton
           color="primary"
-          aria-label="archive rep"
+          aria-label="unarchive vestige"
           component="span"
           size="large"
           onClick={props.handleArchieve}
         >
-          <MoveToInboxIcon />
+          <UnarchiveIcon />
         </IconButton>
       </label>
       <label htmlFor="icon-button-file">
         <IconButton
           color="primary"
-          aria-label="synchronize rep"
+          aria-label="delete vestige"
           component="span"
           size="large"
-          onClick={props.handleSynchronize}
+          onClick={props.handleDelete}
         >
-          <SyncIcon />
+          <DeleteIcon />
         </IconButton>
       </label>
     </Stack>
   );
 }
 
-export default function Home() {
+export default function ArchieveVestige() {
   React.useEffect(() => {
     const reps = JSONLocalStorage.get("reps");
     if (reps) {
@@ -153,7 +153,7 @@ export default function Home() {
       }}
     >
       <Typography variant="h6" component="h5" gutterBottom>
-        Lista de REPs Virtuais
+				Lista de Vestígios Arquivadas
       </Typography>
       {
         listCheckeds.length > 0 ? (

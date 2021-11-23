@@ -14,8 +14,8 @@ import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
-import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
-import SyncIcon from '@mui/icons-material/Sync';
+import DeleteIcon from '@mui/icons-material/Delete';
+import UnarchiveIcon from '@mui/icons-material/Unarchive';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -41,7 +41,7 @@ function AlertDialog({isOpen, setIsOpen, onConfirm}) {
       >
         <DialogTitle id="alert-dialog-title">
           <Typography variant="body1">
-            Deseja mesmo deletar essas REPs?
+            Deseja mesmo deletar essa(s) REP(s)?
           </Typography>
         </DialogTitle>
         <DialogActions>
@@ -64,33 +64,33 @@ function ActionButtons(props) {
       divider={<Divider orientation="vertical" flexItem />}
       spacing={2}
     >
-      <label htmlFor="icon-button-file">
+			<label htmlFor="icon-button-file">
         <IconButton
           color="primary"
-          aria-label="archive rep"
+          aria-label="unarchive rep"
           component="span"
           size="large"
-          onClick={props.handleArchieve}
+          onClick={props.handleUnarchieve}
         >
-          <MoveToInboxIcon />
+          <UnarchiveIcon />
         </IconButton>
       </label>
       <label htmlFor="icon-button-file">
         <IconButton
           color="primary"
-          aria-label="synchronize rep"
+          aria-label="delete rep"
           component="span"
           size="large"
-          onClick={props.handleSynchronize}
+          onClick={props.handleDelete}
         >
-          <SyncIcon />
+          <DeleteIcon />
         </IconButton>
       </label>
     </Stack>
   );
 }
 
-export default function Home() {
+export default function ArchieveREP() {
   React.useEffect(() => {
     const reps = JSONLocalStorage.get("reps");
     if (reps) {
@@ -115,10 +115,10 @@ export default function Home() {
     setlistCheckeds(newlistCheckeds);
   };
 
-  const handleArchieve = () => {
+  const handleUnarchieve = () => {
     const listRepsCopy = [...listReps];
     for (const checked of listCheckeds) {
-      listRepsCopy[checked].flagStatus = 1;
+      listRepsCopy[checked].flagStatus = 0;
     }
 
     setListReps(listRepsCopy);
@@ -140,10 +140,6 @@ export default function Home() {
     setIsModalOpen(false);
   };
 
-  function handleSynchronize() {
-    alert('Não implementado');
-  };
-
   return (
     <Box
       sx={{
@@ -153,14 +149,13 @@ export default function Home() {
       }}
     >
       <Typography variant="h6" component="h5" gutterBottom>
-        Lista de REPs Virtuais
+        Lista de REPs Arquivadas
       </Typography>
       {
         listCheckeds.length > 0 ? (
           <ActionButtons
-            handleArchieve={handleArchieve}
+            handleUnarchieve={handleUnarchieve}
             handleDelete={handleDelete}
-            handleSynchronize={handleSynchronize}
           ></ActionButtons>
         ):(<></>)
       }
@@ -177,18 +172,11 @@ export default function Home() {
           }}>
             {listReps.map((value, index) => {
               const labelId = `checkbox-list-label-${value}`;
-              if (value.flagStatus === 0) {
+              if (value.flagStatus === 1) {
                 return (
                   <ListItem
                     key={index}
                     alignItems="flex-start"
-                    secondaryAction={
-                      <IconButton edge="end" aria-label="comments">
-                        <Link href={`/rep/${value.id}/edit`}>
-                          <CreateIcon />
-                        </ Link>
-                      </IconButton>
-                    }
                     disablePadding
                   >
                     <ListItemButton onClick={() => handleToggle(index)} dense>
@@ -217,11 +205,6 @@ export default function Home() {
           </List>
         )
       }
-      <Link href="/cadastro-rep">
-        <Fab sx={fabStyle} color='primary'>
-          <AddIcon />
-        </Fab>
-      </Link>
       <AlertDialog isOpen={isModalOpen} setIsOpen={setIsModalOpen} onConfirm={deleteRep}></AlertDialog>
     </Box>
   );
