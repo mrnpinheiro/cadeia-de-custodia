@@ -38,6 +38,14 @@ const sidebarItems = [
   {
     name: 'Cadastro de REP',
     path: '/cadastro-rep',
+  },
+  {
+    name: 'Arquivo de REP',
+    path: '/arquivo-rep',
+  },
+  {
+    name: 'Arquivo de Vestígio',
+    path: '/arquivo-vestigio',
   }
 ];
 

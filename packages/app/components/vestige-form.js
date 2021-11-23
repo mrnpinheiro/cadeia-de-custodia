@@ -25,6 +25,7 @@ const Input = styled('input')({
 function VestigeForm({rep, onSubmit}) {
   const [typeVestige, setTypeVestige] = React.useState("");
   const [classPiece, setClassPiece] = React.useState("");
+  const [observationVestige, setObservationVestige] = React.useState("");
   const [coordinates, setCoordinates] = React.useState("");
   const [street, setStreet] = React.useState("");
   const [number, setNumber] = React.useState("");
@@ -104,6 +105,7 @@ function VestigeForm({rep, onSubmit}) {
       idVestige: Date.now(),
       typeVestige,
       classPiece,
+      observationVestige,
       coordinates,
       street,
       number,
@@ -157,6 +159,16 @@ function VestigeForm({rep, onSubmit}) {
             label="Classificação da Peça"
             value={classPiece}
             onChange={e => setClassPiece(e.target.value)}
+            variant="outlined" fullWidth
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Observação"
+            multiline
+            rows={2}
+            value={observationVestige}
+            onChange={e => setObservationVestige(e.target.value)}
             variant="outlined" fullWidth
           />
         </Grid>
@@ -285,7 +297,11 @@ function VestigeForm({rep, onSubmit}) {
             {attachments.map((attachment, index) => {
               return (
                 <Grid key={index} item xs={12}>
-                  <a href={URL.createObjectURL(attachment.file)} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={URL.createObjectURL(attachment.file)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Box display="flex" border={1} sx={{
                       width: '100%',
                       height: 300,

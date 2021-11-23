@@ -17,6 +17,7 @@ function Home() {
   const [numberOrigin, setNumberOrigin] = React.useState("");
   const [yearOrigin, setYearOrigin] = React.useState(new Date());
   const [foundation, setFoundation] = React.useState("");
+  const [authority, setAuthority] = React.useState("");
   const [coordinates, setCoordinates] = React.useState("");
   const [street, setStreet] = React.useState("");
   const [number, setNumber] = React.useState("");
@@ -59,6 +60,7 @@ function Home() {
       typeOrigin,
       numberOrigin,
       foundation,
+      authority,
       yearOrigin,
       coordinates,
       street,
@@ -108,14 +110,6 @@ function Home() {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            label="Órgão"
-            value={foundation}
-            onChange={e => setFoundation(e.target.value)}
-            variant="outlined" fullWidth
-          />
-        </Grid>
-        <Grid item xs={12}>
           <DatePicker
             views={['year']}
             label="Ano da Origem"
@@ -124,6 +118,22 @@ function Home() {
             variant="outlined"
             fullWidth
             renderInput={(params) => <TextField {...params} helperText={null} />}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Órgão"
+            value={foundation}
+            onChange={e => setFoundation(e.target.value)}
+            variant="outlined" fullWidth
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Autoridade Solicitante"
+            value={authority}
+            onChange={e => setAuthority(e.target.value)}
+            variant="outlined" fullWidth
           />
         </Grid>
       </Grid>
