@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 
 import { toast } from 'react-toastify';
 
-import RepForm from '../../../../components/rep-form';
-import ArrayLocalStorage from '../../../../utils/array-local-storage';
+import RepForm from '../../components/rep-form';
+import ArrayLocalStorage from '../../utils/array-local-storage';
 
 function RegisterRep() {
   const router = useRouter();
@@ -23,7 +23,7 @@ function RegisterRep() {
     router.push('/');
   }
 
-  return rep ? <RepForm onSubmit={registerRep}></RepForm> : <></>;
+  return <RepForm onSubmit={registerRep}></RepForm>;
 }
 
 export default RegisterRep;

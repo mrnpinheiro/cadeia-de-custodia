@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { toast } from 'react-toastify';
 
-import RepForm from '../../../../components/rep-form';
+import RepForm from '../../../components/rep-form';
 import ArrayLocalStorage from '../../../utils/array-local-storage';
 
 function EditRep() {
@@ -15,7 +15,7 @@ function EditRep() {
 
   React.useEffect(() => {
     if (!idRep) return;
-    const reps = JSONLocalStorage.get("reps");
+    const reps = ArrayLocalStorage.get("reps");
     const foundRep = reps.find(item => item.id === idRep);
     setRep(foundRep);
   }, [idRep]);
