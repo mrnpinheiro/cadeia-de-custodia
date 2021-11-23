@@ -16,7 +16,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Input = styled('input')({
   display: 'none',
@@ -79,23 +81,35 @@ function VestigeForm({rep, onSubmit}) {
   async function handleAttachmentsInput(target) {
     if (target.files) {
       if (target.files.length !== 0) {
-        const photosWithId = [];
+        const attachmentsWithId = [];
         for (const file of target.files) {
           const fileBinary = await new Promise((resolve) => {
             const fileReader = new FileReader();
             fileReader.onload = (e) => resolve(fileReader.result);
             fileReader.readAsDataURL(file);
           });
-          photosWithId.push({
+          attachmentsWithId.push({
             id: crypto.createHash('sha256').update(fileBinary).digest('hex'),
             name: file.name,
             file: file
           });
         }
 
-        setAttachments([...attachments, ...photosWithId]);
+        setAttachments([...attachments, ...attachmentsWithId]);
       }
     }
+  }
+
+  function handleDeletePhoto(photoId) {
+    setPhotos(photos.filter((photo) => {
+      return photo.id !== photoId;
+    }));
+  }
+
+  function handleDeleteAttachment(attachmentId) {
+    setAtthandleDeleteAttachments(attachments.filter((attachment) => {
+      return attachment.id !== attachmentId;
+    }));
   }
 
   function onSubmitForm(event) {
@@ -280,10 +294,24 @@ function VestigeForm({rep, onSubmit}) {
             {photos.map((photoFile) => {
               return (
                 <Grid key={photoFile.id} item xs={12}>
-                  <Box   display="flex" justifyContent="center" border={1} sx={{
+                  <Box display="flex" justifyContent="center" border={1} sx={{
                     width: '100%',
                     height: 300,
+                    position: 'relative'
                   }}>
+                    <Fab
+                      sx={{
+                        position: 'absolute',
+                        top: 5,
+                        right: 5,
+                      }}
+                      size='small'
+                      aria-label='Delete'
+                      color='inherit'
+                      onChange={() => handleDeletePhoto(photoFile.id)}
+                    >
+                      <DeleteIcon></DeleteIcon>
+                    </Fab>
                     <img src={URL.createObjectURL(photoFile.file)} alt={photoFile.file.name}></img>
                   </Box>
                 </Grid>
@@ -306,8 +334,22 @@ function VestigeForm({rep, onSubmit}) {
                       width: '100%',
                       height: 300,
                       alignItems: 'center',
-                      justifyContent: 'center'
+                      justifyContent: 'center',
+                      position: 'relative'
                     }}>
+                      <Fab
+                        sx={{
+                          position: 'absolute',
+                          top: 5,
+                          right: 5,
+                        }}
+                        size='small'
+                        aria-label='Delete'
+                        color='inherit'
+                        onChange={() => handleDeleteAttachment(photoFile.id)}
+                      >
+                        <DeleteIcon></DeleteIcon>
+                      </Fab>
                       <InsertDriveFileIcon/>
                       <Typography>
                         {attachment.name}

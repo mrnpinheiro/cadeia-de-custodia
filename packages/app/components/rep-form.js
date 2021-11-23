@@ -1,6 +1,5 @@
 import React from "react";
-import { useRouter } from 'next/router';
-import { toast } from 'react-toastify';
+
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import DatePicker from '@mui/lab/DatePicker';
@@ -10,23 +9,23 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
-import ArrayLocalStorage from '../utils/array-local-storage';
+function RepForm({initialValues, onSubmit}) {
+  if (!initialValues) {
+    initialValues = {};
+  }
 
-function Home() {
-  const [typeOrigin, setTypeOrigin] = React.useState("");
-  const [numberOrigin, setNumberOrigin] = React.useState("");
-  const [yearOrigin, setYearOrigin] = React.useState(new Date());
-  const [foundation, setFoundation] = React.useState("");
+  const [typeOrigin, setTypeOrigin] = React.useState(initialValues.typeOrigin);
+  const [numberOrigin, setNumberOrigin] = React.useState(initialValues.numberOrigin);
+  const [yearOrigin, setYearOrigin] = React.useState((initialValues.yearOrigin && new Date(initialValues.yearOrigin)) || new Date());
+  const [foundation, setFoundation] = React.useState(initialValues.foundation);
   const [authority, setAuthority] = React.useState("");
-  const [coordinates, setCoordinates] = React.useState("");
-  const [street, setStreet] = React.useState("");
-  const [number, setNumber] = React.useState("");
-  const [complement, setComplement] = React.useState("");
-  const [district, setDistrict] = React.useState("");
-  const [city, setCity] = React.useState("");
-  const [state, setState] = React.useState("");
-
-  const router = useRouter();
+  const [coordinates, setCoordinates] = React.useState(initialValues.coordinates);
+  const [street, setStreet] = React.useState(initialValues.street);
+  const [number, setNumber] = React.useState(initialValues.number);
+  const [complement, setComplement] = React.useState(initialValues.complement);
+  const [district, setDistrict] = React.useState(initialValues.district);
+  const [city, setCity] = React.useState(initialValues.city);
+  const [state, setState] = React.useState(initialValues.state);
 
   async function setAddressByCoordinates(lat, lng) {
     const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}6&lon=${lng}`);
@@ -42,6 +41,8 @@ function Home() {
   }
 
   React.useEffect(() => {
+    if (coordinates) return;
+
     const options = {
       enableHighAccuracy: true,
     };
@@ -53,8 +54,9 @@ function Home() {
     }, (error) => console.log(error), options);
   }, []);
 
-  function registroRep(event) {
+  function onSubmitForm(event) {
     event.preventDefault();
+
     const rep = {
       id: Date.now(),
       typeOrigin,
@@ -71,21 +73,10 @@ function Home() {
       state,
       flagStatus: 0 // 0: Active, 1: Achieved, 2: Deleted
     };
-
-    ArrayLocalStorage.push("reps", rep);
-    toast.success("Rep cadastrada com sucesso!", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-    router.push('/');
+    onSubmit(rep);
   }
 
-  return <form onSubmit={() => registroRep(event)}>
+  return <form onSubmit={(event) => onSubmitForm(event)}>
     <FormControl fullWidth>
       <Grid container spacing={2} sx={{ p: 2 }}>
         <Grid item xs={12}>
@@ -218,4 +209,4 @@ function Home() {
   </form>;
 }
 
-export default Home;
+export default RepForm;

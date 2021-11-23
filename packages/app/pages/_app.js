@@ -37,7 +37,7 @@ const sidebarItems = [
   },
   {
     name: 'Cadastro de REP',
-    path: '/cadastro-rep',
+    path: '/rep/cadastro',
   },
   {
     name: 'Arquivo de REP',

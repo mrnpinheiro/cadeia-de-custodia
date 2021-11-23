@@ -217,7 +217,7 @@ export default function Home() {
           </List>
         )
       }
-      <Link href="/cadastro-rep">
+      <Link href="/rep/cadastro">
         <Fab sx={fabStyle} color='primary'>
           <AddIcon />
         </Fab>
