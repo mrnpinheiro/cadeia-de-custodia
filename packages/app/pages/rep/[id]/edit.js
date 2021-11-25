@@ -34,7 +34,7 @@ function EditRep() {
     router.push('/');
   }
 
-  return rep ? <RepForm initialValue={rep} onSubmit={editRep}></RepForm> : <></>;
+  return rep ? <RepForm initialValues={rep} onSubmit={editRep}></RepForm> : <></>;
 }
 
 export default EditRep;
