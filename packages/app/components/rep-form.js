@@ -18,7 +18,7 @@ function RepForm({initialValues, onSubmit}) {
   const [numberOrigin, setNumberOrigin] = React.useState(initialValues.numberOrigin);
   const [yearOrigin, setYearOrigin] = React.useState((initialValues.yearOrigin && new Date(initialValues.yearOrigin)) || new Date());
   const [foundation, setFoundation] = React.useState(initialValues.foundation);
-  const [authority, setAuthority] = React.useState("");
+  const [authority, setAuthority] = React.useState(initialValues.authority);
   const [coordinates, setCoordinates] = React.useState(initialValues.coordinates);
   const [street, setStreet] = React.useState(initialValues.street);
   const [number, setNumber] = React.useState(initialValues.number);
