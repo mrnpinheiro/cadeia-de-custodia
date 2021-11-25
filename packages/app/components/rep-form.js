@@ -203,7 +203,7 @@ function RepForm({initialValues, onSubmit}) {
         </Grid>
       </Grid>
       <Grid container sx={{ px: 2, pb: 2 }}>
-        <Button variant="contained" size="large" fullWidth type="submit">Cadastrar REP</Button>
+        <Button variant="contained" size="large" fullWidth type="submit">Salvar REP</Button>
       </Grid>
     </FormControl>
   </form>;
