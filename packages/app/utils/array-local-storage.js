@@ -45,4 +45,18 @@ export default class ArrayLocalStorage {
             JSONLocalStorage.add(key, array);
         }
     }
+
+    /**
+     * Update a item from local storage array
+     *
+     * @param {string} key
+     * @param {number} index
+     * @param {object} newValue
+     *
+     * @return {void}
+     */
+    static update(key, index, newValue) {
+        ArrayLocalStorage.remove(key, index);
+        ArrayLocalStorage.push(key, newValue);
+    }
 }
