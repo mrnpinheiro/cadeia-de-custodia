@@ -31,11 +31,12 @@ export default class ArrayLocalStorage {
     /**
      * Remove item from local storage array
      *
+     * @param {string} key
      * @param {number} index
      *
      * @return {void}
      */
-    static remove(index) {
+    static remove(key, index) {
         const array = JSONLocalStorage.get(key);
 
         if (array && array.length >= index) {
@@ -43,5 +44,19 @@ export default class ArrayLocalStorage {
 
             JSONLocalStorage.add(key, array);
         }
+    }
+
+    /**
+     * Update a item from local storage array
+     *
+     * @param {string} key
+     * @param {number} index
+     * @param {object} newValue
+     *
+     * @return {void}
+     */
+    static update(key, index, newValue) {
+        ArrayLocalStorage.remove(key, index);
+        ArrayLocalStorage.push(key, newValue);
     }
 }
