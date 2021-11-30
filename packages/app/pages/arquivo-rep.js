@@ -8,11 +8,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
-import CreateIcon from '@mui/icons-material/Create';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UnarchiveIcon from '@mui/icons-material/Unarchive';
@@ -162,7 +159,7 @@ export default function ArchieveREP() {
       {
         !listReps || listReps.length === 0 ? (
           <Typography variant="body1" component="h5" gutterBottom>
-            &lt; Nenhuma REP cadastrada &gt;
+            &lt; Nenhuma REP arquivada &gt;
           </Typography>
         ) : (
           <List sx={{

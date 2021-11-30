@@ -128,7 +128,8 @@ function VestigeForm({rep, onSubmit}) {
       state,
       photoIds: photos.map((photo) => photo.id),
       attachmentIds: attachments.map((attachment) => attachment.id),
-      idRep: rep.id
+      idRep: rep.id,
+      flagStatus: 0 // 0: Active, 1: Achieved, 2: Deleted
     };
     onSubmit(vestige);
   }

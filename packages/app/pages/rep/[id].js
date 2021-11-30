@@ -18,6 +18,7 @@ import Stack from '@mui/material/Stack';
 import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
 
 import ArrayLocalStorage from '../../utils/array-local-storage';
+import JSONLocalStorage from '../../utils/json-local-storage';
 
 function ActionButtons(props) {
   return (
@@ -62,18 +63,29 @@ function viewRep() {
     setVestiges(foundVestiges);
   }, [idRep]);
 
-  const handleArchieve = () => {
-    const listRepsCopy = [...listReps];
-    for (const checked of listCheckeds) {
-      listRepsCopy[checked].flagStatus = 1;
+  const [listCheckeds, setlistCheckeds] = React.useState([]);
+
+  function handleToggle(selectedIndex) {
+    const newlistCheckeds = [...listCheckeds];
+
+    if (!newlistCheckeds.includes(selectedIndex)) {
+      newlistCheckeds.push(selectedIndex);
+    } else {
+      // Remove select index from checked list
+      newlistCheckeds.splice(newlistCheckeds.indexOf(selectedIndex), 1);
     }
 
-    setListReps(listRepsCopy);
-    JSONLocalStorage.add("reps", listReps);
+    setlistCheckeds(newlistCheckeds);
   };
 
-  function handleDelete() {
-    setIsModalOpen(true);
+  const handleArchieve = () => {
+    const listVestigesCopy = [...vestiges];
+    for (const checked of listCheckeds) {
+      listVestigesCopy[checked].flagStatus = 1;
+    }
+
+    setVestiges(listVestigesCopy);
+    JSONLocalStorage.add("vestiges", vestiges);
   };
 
   return rep ? <>
@@ -145,48 +157,55 @@ function viewRep() {
             </Link>
           </div>
           <div>
-            <ActionButtons
-              handleArchieve={handleArchieve}
-            ></ActionButtons>
+            {
+              listCheckeds.length > 0 ? (
+                <ActionButtons
+                  handleArchieve={handleArchieve}
+                ></ActionButtons>
+              ):(<></>)
+            }
           </div>
         </Typography>
       </Grid>
       {vestiges.map((vestige, index) => {
         const labelId = `checkbox-list-label-${index}`;
-        return (
-          <ListItem
-            key={index}
-            secondaryAction={
-              <IconButton edge="end" aria-label="comments">
-                <Link href={
-                  `/rep/${vestige.idRep}/vestigio/${vestige.idVestige}/edit`
-                }>
-                  <CreateIcon />
-                </ Link>
-              </IconButton>
-            }
-            disablePadding
-          >
-            <ListItemButton dense>
-              <ListItemIcon>
-                <Checkbox
-                  edge="start"
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ 'aria-labelledby': labelId }}
-                />
-              </ListItemIcon>
-              <Link href={`/rep/${vestige.idRep}/vestigio/${vestige.idVestige}`}>
-                <ListItemText
-                  id={labelId}
-                  primary={
-                    `${vestige.typeVestige} - ${vestige.classPiece}`
-                  }
-                />
-              </Link>
-            </ListItemButton>
-          </ListItem>
-        );
+        if (vestige.flagStatus === 0) {
+          return (
+            <ListItem
+              key={index}
+              secondaryAction={
+                <IconButton edge="end" aria-label="comments">
+                  <Link href={
+                    `/rep/${vestige.idRep}/vestigio/${vestige.idVestige}/edit`
+                  }>
+                    <CreateIcon />
+                  </ Link>
+                </IconButton>
+              }
+              disablePadding
+            >
+              <ListItemButton onClick={() => handleToggle(index)} dense>
+                <ListItemIcon>
+                  <Checkbox
+                    edge="start"
+                    checked={listCheckeds.includes(index)}
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{ 'aria-labelledby': labelId }}
+                  />
+                </ListItemIcon>
+                <Link href={`/rep/${vestige.idRep}/vestigio/${vestige.idVestige}`}>
+                  <ListItemText
+                    id={labelId}
+                    primary={
+                      `${vestige.typeVestige} - ${vestige.classPiece}`
+                    }
+                  />
+                </Link>
+              </ListItemButton>
+            </ListItem>
+          );
+        }
       })}
     </ Grid>
   </> : <></>;
