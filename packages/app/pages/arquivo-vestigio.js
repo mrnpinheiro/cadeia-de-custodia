@@ -41,7 +41,7 @@ function AlertDialog({isOpen, setIsOpen, onConfirm}) {
       >
         <DialogTitle id="alert-dialog-title">
           <Typography variant="body1">
-            Deseja mesmo deletar essas REPs?
+            Deseja mesmo deletar esse(s) vestígio(s)?
           </Typography>
         </DialogTitle>
         <DialogActions>
@@ -70,7 +70,7 @@ function ActionButtons(props) {
           aria-label="unarchive vestige"
           component="span"
           size="large"
-          onClick={props.handleArchieve}
+          onClick={props.handleUnarchieve}
         >
           <UnarchiveIcon />
         </IconButton>
@@ -92,14 +92,14 @@ function ActionButtons(props) {
 
 export default function ArchieveVestige() {
   React.useEffect(() => {
-    const reps = JSONLocalStorage.get("reps");
-    if (reps) {
-      setListReps(reps);
+    const vestiges = JSONLocalStorage.get("vestiges");
+    if (vestiges) {
+      setListVestiges(vestiges);
     }
   }, []);
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [listReps, setListReps] = React.useState([]);
+  const [listVestiges, setListVestiges] = React.useState([]);
   const [listCheckeds, setlistCheckeds] = React.useState([]);
 
   function handleToggle(selectedIndex) {
@@ -115,14 +115,14 @@ export default function ArchieveVestige() {
     setlistCheckeds(newlistCheckeds);
   };
 
-  const handleArchieve = () => {
-    const listRepsCopy = [...listReps];
+  const handleUnarchieve = () => {
+    const listVestigesCopy = [...listVestiges];
     for (const checked of listCheckeds) {
-      listRepsCopy[checked].flagStatus = 1;
+      listVestigesCopy[checked].flagStatus = 0;
     }
 
-    setListReps(listRepsCopy);
-    JSONLocalStorage.add("reps", listReps);
+    setListVestiges(listVestigesCopy);
+    JSONLocalStorage.add("vestiges", listVestiges);
   };
 
   function handleDelete() {
@@ -130,18 +130,14 @@ export default function ArchieveVestige() {
   };
 
   function deleteRep() {
-    const listRepsCopy = [...listReps];
+    const listVestigesCopy = [...listVestiges];
     for (const checked of listCheckeds) {
-      listRepsCopy[checked].flagStatus = 2;
+      listVestigesCopy[checked].flagStatus = 2;
     }
 
-    setListReps(listRepsCopy);
-    JSONLocalStorage.add("reps", listReps);
+    setListVestiges(listVestigesCopy);
+    JSONLocalStorage.add("vestiges", listVestiges);
     setIsModalOpen(false);
-  };
-
-  function handleSynchronize() {
-    alert('Não implementado');
   };
 
   return (
@@ -153,21 +149,20 @@ export default function ArchieveVestige() {
       }}
     >
       <Typography variant="h6" component="h5" gutterBottom>
-				Lista de Vestígios Arquivadas
+				Lista de Vestígios Arquivados
       </Typography>
       {
         listCheckeds.length > 0 ? (
           <ActionButtons
-            handleArchieve={handleArchieve}
+            handleUnarchieve={handleUnarchieve}
             handleDelete={handleDelete}
-            handleSynchronize={handleSynchronize}
           ></ActionButtons>
         ):(<></>)
       }
       {
-        !listReps || listReps.length === 0 ? (
+        !listVestiges || listVestiges.length === 0 ? (
           <Typography variant="body1" component="h5" gutterBottom>
-            &lt; Nenhuma REP cadastrada &gt;
+            &lt; Nenhum vestígio arquivado &gt;
           </Typography>
         ) : (
           <List sx={{
@@ -175,20 +170,13 @@ export default function ArchieveVestige() {
             maxWidth: '100%',
             bgcolor: 'background.paper',
           }}>
-            {listReps.map((value, index) => {
+            {listVestiges.map((value, index) => {
               const labelId = `checkbox-list-label-${value}`;
-              if (value.flagStatus === 0) {
+              if (value.flagStatus === 1) {
                 return (
                   <ListItem
                     key={index}
                     alignItems="flex-start"
-                    secondaryAction={
-                      <IconButton edge="end" aria-label="comments">
-                        <Link href={`/rep/${value.id}/edit`}>
-                          <CreateIcon />
-                        </ Link>
-                      </IconButton>
-                    }
                     disablePadding
                   >
                     <ListItemButton onClick={() => handleToggle(index)} dense>
@@ -201,11 +189,11 @@ export default function ArchieveVestige() {
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </ListItemIcon>
-                      <Link href={`/rep/${value.id}`}>
+                      <Link href={`/rep/${value.idRep}/vestigio/${value.idVestige}`}>
                         <ListItemText
                           id={labelId}
                           primary={
-                            `${value.typeOrigin} - ${value.numberOrigin} - ${value.foundation}`
+                            `${value.typeVestige} - ${value.classPiece}`
                           }
                         />
                       </Link>
@@ -217,11 +205,6 @@ export default function ArchieveVestige() {
           </List>
         )
       }
-      <Link href="/rep/cadastro">
-        <Fab sx={fabStyle} color='primary'>
-          <AddIcon />
-        </Fab>
-      </Link>
       <AlertDialog isOpen={isModalOpen} setIsOpen={setIsModalOpen} onConfirm={deleteRep}></AlertDialog>
     </Box>
   );
