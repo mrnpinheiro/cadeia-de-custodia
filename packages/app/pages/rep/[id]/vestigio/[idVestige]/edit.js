@@ -42,15 +42,13 @@ function EditVestige() {
   async function editVestige(editedVestige) {
     let photoIds = [];
     if (editedVestige.photos) {
-      console.log(db);
-      console.log(db.vestigePhotos);
       await db.vestigePhotos.bulkDelete(vestige.photoIds);
       photoIds  = await db.vestigePhotos.bulkAdd(editedVestige.photos, {allKeys: true});
     }
     let attachmentIds = [];
     if (editedVestige.attachments) {
       await db.vestigeAttachments.bulkDelete(vestige.attachmentIds);
-      attachmentIds = await db.vestigePhotos.bulkAdd(editedVestige.attachments, {allKeys: true});
+      attachmentIds = await db.vestigeAttachments.bulkAdd(editedVestige.attachments, {allKeys: true});
     }
 
     ArrayLocalStorage.update("vestiges", vestigeIndex, formatVestigeWithPhotoIdsAndAttachmentIds(editedVestige, photoIds, attachmentIds));

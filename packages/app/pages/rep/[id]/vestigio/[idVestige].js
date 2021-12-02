@@ -17,8 +17,8 @@ function viewVestige() {
 
   const [rep, setRep] = React.useState();
   const [vestige, setVestige] = React.useState();
-  const [photos, setPhotos] = React.useState();
-  const [attachments, setAttachments] = React.useState();  
+  const [photos, setPhotos] = React.useState([]);
+  const [attachments, setAttachments] = React.useState([]);  
 
   const db = new Dexie("cadeia-de-custodia");
 
@@ -110,10 +110,10 @@ function viewVestige() {
               <Grid key={photoFile.id} item xs={12}>
                 <Box display="flex" justifyContent="center" border={1} sx={{
                   width: '100%',
-                  height: 300,
+                  height: 'auto',
                   position: 'relative'
                 }}>
-                  <img src={URL.createObjectURL(photoFile.file)} alt={photoFile.file.name}></img>
+                  <img style={{width: '100%', maxWidth: '100%', height: 'auto'}} src={URL.createObjectURL(photoFile.file)} alt={photoFile.file.name}></img>
                 </Box>
               </Grid>
             );

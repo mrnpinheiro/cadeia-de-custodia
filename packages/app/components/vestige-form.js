@@ -37,8 +37,8 @@ function VestigeForm({initialValues, rep, onSubmit}) {
   const [district, setDistrict] = React.useState();
   const [city, setCity] = React.useState();
   const [state, setState] = React.useState();
-  const [photos, setPhotos] = React.useState(initialValues.photos);
-  const [attachments, setAttachments] = React.useState(initialValues.attachments);
+  const [photos, setPhotos] = React.useState(initialValues.photos || []);
+  const [attachments, setAttachments] = React.useState(initialValues.attachments || []);
 
   React.useEffect(() => {
     if (!rep) return;
@@ -278,7 +278,7 @@ function VestigeForm({initialValues, rep, onSubmit}) {
                 type="file"
               />
               <Button variant="contained" component="span">
-              Anexar
+                Adicionar arquivos
               </Button>
             </label>
           </Stack>
@@ -291,7 +291,6 @@ function VestigeForm({initialValues, rep, onSubmit}) {
                 <Grid key={index} item xs={12}>
                   <Box border={1} sx={{
                     width: '100%',
-                    height: 300,
                     position: 'relative'
                   }}>
                     <Fab
@@ -314,11 +313,11 @@ function VestigeForm({initialValues, rep, onSubmit}) {
                     >
                       <Box display="flex" sx={{
                         width: '100%',
-                        height: '100%',
+                        height: 'auto',
                         alignItems: 'center',
                         justifyContent: 'center',
                       }}>
-                        <img style={{width: 'auto', height: 'auto', maxHeight: '100%'}} src={URL.createObjectURL(photo.file)} alt={photo.file.name}></img>
+                        <img style={{width: '100%', maxWidth: '100%', height: 'auto'}} src={URL.createObjectURL(photo.file)} alt={photo.file.name}></img>
                       </Box>
                     </a>
                   </Box>
