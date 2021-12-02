@@ -1,6 +1,5 @@
 import React from "react";
 
-import Dexie from 'dexie';
 import crypto from 'crypto';
 import { styled } from '@mui/material/styles';
 import FormControl from '@mui/material/FormControl';
@@ -24,18 +23,22 @@ const Input = styled('input')({
   display: 'none',
 });
 
-function VestigeForm({rep, onSubmit}) {
-  const [typeVestige, setTypeVestige] = React.useState("");
-  const [classPiece, setClassPiece] = React.useState("");
-  const [observationVestige, setObservationVestige] = React.useState("");
-  const [coordinates, setCoordinates] = React.useState("");
-  const [street, setStreet] = React.useState("");
-  const [number, setNumber] = React.useState("");
-  const [district, setDistrict] = React.useState("");
-  const [city, setCity] = React.useState("");
-  const [state, setState] = React.useState("");
-  const [photos, setPhotos] = React.useState([]);
-  const [attachments, setAttachments] = React.useState([]);
+function VestigeForm({initialValues, rep, onSubmit}) {
+  if (!initialValues) {
+    initialValues = {};
+  }
+
+  const [typeVestige, setTypeVestige] = React.useState(initialValues.typeVestige);
+  const [classPiece, setClassPiece] = React.useState(initialValues.classPiece);
+  const [observationVestige, setObservationVestige] = React.useState(initialValues.observationVestige);
+  const [coordinates, setCoordinates] = React.useState();
+  const [street, setStreet] = React.useState();
+  const [number, setNumber] = React.useState();
+  const [district, setDistrict] = React.useState();
+  const [city, setCity] = React.useState();
+  const [state, setState] = React.useState();
+  const [photos, setPhotos] = React.useState(initialValues.photos);
+  const [attachments, setAttachments] = React.useState(initialValues.attachments);
 
   React.useEffect(() => {
     if (!rep) return;
@@ -46,15 +49,6 @@ function VestigeForm({rep, onSubmit}) {
     setCity(rep.city);
     setState(rep.state);
   }, [rep]);
-
-  const db = new Dexie("cadeia-de-custodia");
-
-  React.useEffect(
-    () => {
-      db.version(1).stores({ vestigePhotos: 'id,name,file' });
-    },
-    [db]
-  );
 
   async function handlePhotosInput(target) {
     if (target.files) {
@@ -67,7 +61,7 @@ function VestigeForm({rep, onSubmit}) {
             fileReader.readAsDataURL(file);
           });
           photosWithId.push({
-            id: crypto.createHash('sha256').update(fileBinary).digest('hex'),
+            hash: crypto.createHash('sha256').update(fileBinary).digest('hex'),
             name: file.name,
             file: file
           });
@@ -89,7 +83,7 @@ function VestigeForm({rep, onSubmit}) {
             fileReader.readAsDataURL(file);
           });
           attachmentsWithId.push({
-            id: crypto.createHash('sha256').update(fileBinary).digest('hex'),
+            hash: crypto.createHash('sha256').update(fileBinary).digest('hex'),
             name: file.name,
             file: file
           });
@@ -107,7 +101,7 @@ function VestigeForm({rep, onSubmit}) {
   }
 
   function handleDeleteAttachment(attachmentId) {
-    setAtthandleDeleteAttachments(attachments.filter((attachment) => {
+    setAttachments(attachments.filter((attachment) => {
       return attachment.id !== attachmentId;
     }));
   }
@@ -126,8 +120,8 @@ function VestigeForm({rep, onSubmit}) {
       district,
       city,
       state,
-      photoIds: photos.map((photo) => photo.id),
-      attachmentIds: attachments.map((attachment) => attachment.id),
+      photos,
+      attachments,
       idRep: rep.id,
       flagStatus: 0 // 0: Active, 1: Achieved, 2: Deleted
     };
@@ -292,10 +286,10 @@ function VestigeForm({rep, onSubmit}) {
         <Divider />
         { photos && photos.length > 0 &&
           <Grid container spacing={2} sx={{ p: 2 }} >
-            {photos.map((photoFile) => {
+            {photos.map((photo, index) => {
               return (
-                <Grid key={photoFile.id} item xs={12}>
-                  <Box display="flex" justifyContent="center" border={1} sx={{
+                <Grid key={index} item xs={12}>
+                  <Box border={1} sx={{
                     width: '100%',
                     height: 300,
                     position: 'relative'
@@ -309,11 +303,24 @@ function VestigeForm({rep, onSubmit}) {
                       size='small'
                       aria-label='Delete'
                       color='inherit'
-                      onChange={() => handleDeletePhoto(photoFile.id)}
+                      onClick={() => handleDeletePhoto(photo.id)}
                     >
                       <DeleteIcon></DeleteIcon>
                     </Fab>
-                    <img src={URL.createObjectURL(photoFile.file)} alt={photoFile.file.name}></img>
+                    <a
+                      href={URL.createObjectURL(photo.file)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Box display="flex" sx={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                        <img style={{width: 'auto', height: 'auto', maxHeight: '100%'}} src={URL.createObjectURL(photo.file)} alt={photo.file.name}></img>
+                      </Box>
+                    </a>
                   </Box>
                 </Grid>
               );
@@ -326,37 +333,42 @@ function VestigeForm({rep, onSubmit}) {
             {attachments.map((attachment, index) => {
               return (
                 <Grid key={index} item xs={12}>
-                  <a
-                    href={URL.createObjectURL(attachment.file)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Box display="flex" border={1} sx={{
-                      width: '100%',
-                      height: 300,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      position: 'relative'
-                    }}>
-                      <Fab
-                        sx={{
-                          position: 'absolute',
-                          top: 5,
-                          right: 5,
-                        }}
-                        size='small'
-                        aria-label='Delete'
-                        color='inherit'
-                        onChange={() => handleDeleteAttachment(photoFile.id)}
-                      >
-                        <DeleteIcon></DeleteIcon>
-                      </Fab>
-                      <InsertDriveFileIcon/>
-                      <Typography>
-                        {attachment.name}
-                      </Typography>
-                    </Box>
-                  </a>
+                  <Box border={1} sx={{
+                    width: '100%',
+                    height: 300,
+                    position: 'relative'
+                  }}>
+                    <Fab
+                      sx={{
+                        position: 'absolute',
+                        top: 5,
+                        right: 5,
+                      }}
+                      size='small'
+                      aria-label='Delete'
+                      color='inherit'
+                      onClick={() => handleDeleteAttachment(attachment.id)}
+                    >
+                      <DeleteIcon></DeleteIcon>
+                    </Fab>
+                    <a
+                      href={URL.createObjectURL(attachment.file)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Box display="flex" sx={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                        <InsertDriveFileIcon/>
+                        <Typography>
+                          {attachment.name}
+                        </Typography>
+                      </Box>
+                    </a>
+                  </Box>
                 </Grid>
               );
             })
@@ -370,7 +382,7 @@ function VestigeForm({rep, onSubmit}) {
           size="large"
           fullWidth
           type="submit">
-          Cadastrar Vestígio
+           Salvar Vestígio
         </Button>
       </Grid>
     </FormControl>
