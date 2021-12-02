@@ -25,8 +25,8 @@ function viewVestige() {
   React.useEffect(
     () => {
       db.version(1).stores({ 
-        vestigePhotos: ',name,file',
-        vestigeAttachments: ',name,file'
+        vestigePhotos: '++id,hash,name,file',
+        vestigeAttachments: '++id,hash,name,file'
       });
     },
     [db]
