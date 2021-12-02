@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from 'next/router';
 
+import Dexie from 'dexie';
 import { toast } from 'react-toastify';
 
 import VestigeForm from '../../../../components/vestige-form';
@@ -14,6 +15,18 @@ function RegisterVestige() {
 
   const [rep, setRep] = React.useState();
 
+  const db = new Dexie("cadeia-de-custodia");
+
+  React.useEffect(
+    () => {
+      db.version(1).stores({ 
+        vestigePhotos: '++id,hash,name,file',
+        vestigeAttachments: '++id,hash,name,file'
+      });
+    },
+    [db]
+  );
+
   React.useEffect(() => {
     if (!idRep) return;
     const reps = JSONLocalStorage.get("reps");
@@ -21,19 +34,19 @@ function RegisterVestige() {
     setRep(foundRep);
   }, [idRep]);
 
-  function registerVestige(vestige) {
-    if (typeof photos !== 'undefined' && photos.length > 0) {
-      for (const photo of photos) {
-        db.vestigePhotos.add(photo);
-      }
+  async function registerVestige(vestige) {
+    const photoIds = [];
+    if (vestige.photos) {
+      const photosToAdd = vestige.photos;
+      photoIds = await db.vestigePhotos.bulkAdd(photosToAdd, {allKeys: true});
     }
-    if (typeof attachments !== 'undefined' && attachments.length > 0) {
-      for (const attachment of attachments) {
-        db.vestigeAttachments.add(attachment);
-      }
+    let attachmentIds = []
+    if (vestige.attachments) {
+      const attachmentsToAdd = vestige.attachments;
+      attachmentIds = await db.vestigeAttachments.bulkAdd(attachmentsToAdd, {allKeys: true});
     }
 
-    ArrayLocalStorage.push("vestiges", vestige);
+    ArrayLocalStorage.push("vestiges", formatVestigeWithPhotoIdsAndAttachmentIds(vestige, photoIds, attachmentIds));
     toast.success("Vestígio cadastrado com sucesso!", {
       position: "top-right",
       autoClose: 5000,
@@ -44,6 +57,19 @@ function RegisterVestige() {
       progress: undefined,
     });
     router.push(`/rep/${idRep}`);
+  }
+
+  function formatVestigeWithPhotoIdsAndAttachmentIds(vestigeWithPhotosAndAttachments, photoIds, attachmentIds) {
+    vestigeWithPhotosAndAttachments = {
+      ...vestigeWithPhotosAndAttachments,
+      photoIds,
+      attachmentIds
+    };
+
+    delete vestigeWithPhotosAndAttachments.photos;
+    delete vestigeWithPhotosAndAttachments.attachments;
+
+    return vestigeWithPhotosAndAttachments;
   }
 
   return rep ? <VestigeForm rep={rep} onSubmit={registerVestige}></VestigeForm> : <></>;
