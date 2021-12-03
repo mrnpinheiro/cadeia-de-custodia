@@ -13,6 +13,7 @@ import InputLabel from '@mui/material/InputLabel';
 import axios from 'axios';
 
 import arrayTypeOrigin from '../constants/tipoOrigem';
+import arrayOrgaos from '../constants/orgaos';
 
 function RepForm({initialValues, onSubmit}) {
   if (!initialValues) {
@@ -21,6 +22,10 @@ function RepForm({initialValues, onSubmit}) {
 
   const menuItemsTypeOrigin = arrayTypeOrigin.map(item => (
     <MenuItem key={item.cod_tipoorigem} value={item.cod_tipoorigem}>{item.tipoorigem}</MenuItem>
+  ));
+
+  const menuItemsOrgaos = arrayOrgaos.map(item => (
+    <MenuItem key={item.cod_orgao} value={item.cod_orgao}>{item.orgao}</MenuItem>
   ));
 
   const [typeOrigin, setTypeOrigin] = React.useState(initialValues.typeOrigin);
@@ -127,12 +132,18 @@ function RepForm({initialValues, onSubmit}) {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            label="Órgão"
-            value={foundation}
-            onChange={e => setFoundation(e.target.value)}
-            variant="outlined" fullWidth
-          />
+          <FormControl fullWidth >
+            <InputLabel id="origin">Órgão</InputLabel>
+            <Select
+              labelId="Órgão"
+              id="foundation"
+              value={foundation}
+              label="Órgão"
+              onChange={e => setFoundation(e.target.value)}
+            >
+              {menuItemsOrgaos}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12}>
           <TextField

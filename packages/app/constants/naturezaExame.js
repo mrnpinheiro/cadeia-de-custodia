@@ -1,3 +1,5 @@
+import { parse } from 'csv-parse/sync';
+
 var csvNaturezaExame = `cod_naturezaexame,cod_nucleo1,naturezaexame,codigo
 1,7,Atropelamento,1
 2,7,Abalroamento,2

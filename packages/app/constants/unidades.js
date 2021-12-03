@@ -1,3 +1,5 @@
+import { parse } from 'csv-parse/sync';
+
 var csvUnidades = `codunidade,instituto,diretoria,nucleo
 3,IC,CEAP,Análise Instrumental
 4,IC,CEAP,Balística

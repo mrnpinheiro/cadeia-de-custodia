@@ -1,3 +1,5 @@
+import { parse } from 'csv-parse/sync';
+
 var csvFuncao = `cod_funcao,funcao
 1,Agente de Telecom. Policial
 2,Agente Policial
