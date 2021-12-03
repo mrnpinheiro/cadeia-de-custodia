@@ -15,6 +15,17 @@ import axios from 'axios';
 import arrayTypeOrigin from '../constants/tipoOrigem';
 import arrayOrgaos from '../constants/orgaos';
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
 function RepForm({initialValues, onSubmit}) {
   if (!initialValues) {
     initialValues = {};
@@ -107,6 +118,7 @@ function RepForm({initialValues, onSubmit}) {
               value={typeOrigin}
               label="Tipo de Origem"
               onChange={e => setTypeOrigin(e.target.value)}
+              MenuProps={MenuProps}
             >
               {menuItemsTypeOrigin}
             </Select>
@@ -140,6 +152,7 @@ function RepForm({initialValues, onSubmit}) {
               value={foundation}
               label="Órgão"
               onChange={e => setFoundation(e.target.value)}
+              MenuProps={MenuProps}
             >
               {menuItemsOrgaos}
             </Select>
