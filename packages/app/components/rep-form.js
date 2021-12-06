@@ -7,12 +7,37 @@ import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
 import axios from 'axios';
+
+import arrayTypeOrigin from '../constants/tipoOrigem';
+import arrayOrgaos from '../constants/orgaos';
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 function RepForm({initialValues, onSubmit}) {
   if (!initialValues) {
     initialValues = {};
   }
+
+  const menuItemsTypeOrigin = arrayTypeOrigin.map(item => (
+    <MenuItem key={item.cod_tipoorigem} value={item.cod_tipoorigem}>{item.tipoorigem}</MenuItem>
+  ));
+
+  const menuItemsOrgaos = arrayOrgaos.map(item => (
+    <MenuItem key={item.cod_orgao} value={item.cod_orgao}>{item.orgao}</MenuItem>
+  ));
 
   const [typeOrigin, setTypeOrigin] = React.useState(initialValues.typeOrigin);
   const [numberOrigin, setNumberOrigin] = React.useState(initialValues.numberOrigin);
@@ -85,12 +110,19 @@ function RepForm({initialValues, onSubmit}) {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            label="Tipo de Origem"
-            value={typeOrigin}
-            onChange={e => setTypeOrigin(e.target.value)}
-            variant="outlined" fullWidth
-          />
+          <FormControl fullWidth >
+            <InputLabel id="origin">Tipo de Origem</InputLabel>
+            <Select
+              labelId="Tipo de Origem"
+              id="typeOrigin"
+              value={typeOrigin}
+              label="Tipo de Origem"
+              onChange={e => setTypeOrigin(e.target.value)}
+              MenuProps={MenuProps}
+            >
+              {menuItemsTypeOrigin}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -112,12 +144,19 @@ function RepForm({initialValues, onSubmit}) {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            label="Órgão"
-            value={foundation}
-            onChange={e => setFoundation(e.target.value)}
-            variant="outlined" fullWidth
-          />
+          <FormControl fullWidth >
+            <InputLabel id="origin">Órgão</InputLabel>
+            <Select
+              labelId="Órgão"
+              id="foundation"
+              value={foundation}
+              label="Órgão"
+              onChange={e => setFoundation(e.target.value)}
+              MenuProps={MenuProps}
+            >
+              {menuItemsOrgaos}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12}>
           <TextField
