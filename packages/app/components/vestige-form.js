@@ -19,6 +19,9 @@ import Fab from '@mui/material/Fab';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+import TYPE_ORIGIN from '../constants/tipoOrigem';
+import ORGAOS from '../constants/orgaos';
+
 const Input = styled('input')({
   display: 'none',
 });
@@ -136,7 +139,7 @@ function VestigeForm({initialValues, rep, onSubmit}) {
             Informações da REP vinculada:
           </Typography>
           <Typography>
-            {`${rep.typeOrigin} - ${rep.numberOrigin} - ${rep.foundation}`}
+            {`${TYPE_ORIGIN[rep.typeOrigin]} - ${rep.numberOrigin} - ${ORGAOS[rep.foundation]}`}
           </Typography>
         </Grid>
       </Grid>

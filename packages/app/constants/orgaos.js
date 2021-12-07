@@ -1,6 +1,6 @@
 import { parse } from 'csv-parse/sync';
 
-var csvOrgao = `cod_orgao,orgao,cod_tipoorgao,cod_cidade
+const csvOrgao = `cod_orgao,orgao,cod_tipoorgao,cod_cidade
 1,DEL.POL.SETE BARRAS,1,580
 2,01º D.P. ADAMANTINA,1,1
 3,01º D.P. AMPARO ,1,22
@@ -3736,10 +3736,16 @@ var csvOrgao = `cod_orgao,orgao,cod_tipoorgao,cod_cidade
 3772,3ª VARA CRIMINAL - FORO DE MOGI DAS CRUZES,5,346
 3773,DPPC - 01ª Delegacia - Divisão de Investigações sobre Crimes contra a Administração,1,565
 3774,TERCEIRO FORO CRIMINAL DE MARÍLIA,5,329
-`
+`;
+
 const records = parse(csvOrgao, {
-    columns: true,
-    skip_empty_lines: true
+  columns: true,
+  skip_empty_lines: true
 });
 
-export default records;
+const obj = {};
+for (const record of records) {
+  obj[record.cod_orgao] = record.orgao;
+}
+
+export default obj;

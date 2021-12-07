@@ -12,8 +12,8 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import axios from 'axios';
 
-import arrayTypeOrigin from '../constants/tipoOrigem';
-import arrayOrgaos from '../constants/orgaos';
+import TYPE_ORIGIN from '../constants/tipoOrigem';
+import ORGAOS from '../constants/orgaos';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -27,12 +27,12 @@ const MenuProps = {
 };
 
 function RepForm({initialValues = {}, onSubmit}) {
-  const menuItemsTypeOrigin = arrayTypeOrigin.map(item => (
-    <MenuItem key={item.cod_tipoorigem} value={item.cod_tipoorigem}>{item.tipoorigem}</MenuItem>
+  const menuItemsTypeOrigin = Object.entries(TYPE_ORIGIN).map(([index, value]) => (
+    <MenuItem key={index} value={index}>{value}</MenuItem>
   ));
 
-  const menuItemsOrgaos = arrayOrgaos.map(item => (
-    <MenuItem key={item.cod_orgao} value={item.cod_orgao}>{item.orgao}</MenuItem>
+  const menuItemsOrgaos = Object.entries(ORGAOS).map(([index, value]) => (
+    <MenuItem key={index} value={index}>{value}</MenuItem>
   ));
 
   const [typeOrigin, setTypeOrigin] = React.useState(initialValues.typeOrigin || '');
@@ -120,7 +120,7 @@ function RepForm({initialValues = {}, onSubmit}) {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={8}>
           <TextField
             label="Número da Origem"
             value={numberOrigin}
@@ -128,7 +128,7 @@ function RepForm({initialValues = {}, onSubmit}) {
             variant="outlined" fullWidth
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={4}>
           <DatePicker
             views={['year']}
             label="Ano da Origem"

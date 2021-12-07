@@ -1,6 +1,6 @@
 import { parse } from 'csv-parse/sync';
 
-var csvUnidades = `codunidade,instituto,diretoria,nucleo
+const csvUnidades = `codunidade,instituto,diretoria,nucleo
 3,IC,CEAP,Análise Instrumental
 4,IC,CEAP,Balística
 5,IC,CEAP,Biologia e Bioquímica
@@ -90,11 +90,16 @@ var csvUnidades = `codunidade,instituto,diretoria,nucleo
 175,IC,CP,Supervisão de Plantão
 176,IC,CEAP,Biologia e Bioquímica
 177,IC,CEAP,Biologia e Bioquímica
-`
+`;
 
 const records = parse(csvUnidades, {
-    columns: true,
-    skip_empty_lines: true
+  columns: true,
+  skip_empty_lines: true
 });
 
-export default records;
+const obj = {};
+for (const record of records) {
+  obj[record.codunidade] = record.instituto;
+}
+
+export default obj;

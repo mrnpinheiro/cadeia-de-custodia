@@ -1,6 +1,6 @@
 import { parse } from 'csv-parse/sync';
 
-var csvFuncao = `cod_funcao,funcao
+const csvFuncao = `cod_funcao,funcao
 1,Agente de Telecom. Policial
 2,Agente Policial
 3,Atendente de Necrotério
@@ -16,11 +16,16 @@ var csvFuncao = `cod_funcao,funcao
 13,Diretor
 14,Chefe
 15,Protocolo
-`
+`;
 
 const records = parse(csvFuncao, {
-    columns: true,
-    skip_empty_lines: true
+  columns: true,
+  skip_empty_lines: true
 });
 
-export default records;
+const obj = {};
+for (const record of records) {
+  obj[record.cod_funcao] = record.funcao;
+}
+
+export default obj;
