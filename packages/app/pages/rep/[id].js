@@ -19,6 +19,8 @@ import MoveToInboxIcon from '@mui/icons-material/MoveToInbox';
 
 import ArrayLocalStorage from '../../utils/array-local-storage';
 import JSONLocalStorage from '../../utils/json-local-storage';
+import TYPE_ORIGIN from '../../constants/tipoOrigem';
+import ORGAOS from '../../constants/orgaos';
 
 function ActionButtons(props) {
   return (
@@ -97,7 +99,7 @@ function viewRep() {
       </Grid>
       <Grid item xs={12}>
         <Typography variant="body1">
-          <b>Tipo de Origem:</b> {rep.typeOrigin}
+          <b>Tipo de Origem:</b> {TYPE_ORIGIN[rep.typeOrigin]}
         </Typography>
       </Grid>
       <Grid item xs={12}>
@@ -112,7 +114,7 @@ function viewRep() {
       </Grid>
       <Grid item xs={12}>
         <Typography variant="body1">
-          <b>Órgão:</b> {rep.foundation}
+          <b>Órgão:</b> {ORGAOS[rep.foundation]}
         </Typography>
       </Grid>
       <Grid item xs={12}>

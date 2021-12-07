@@ -23,6 +23,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import JSONLocalStorage from '../utils/json-local-storage';
+import TYPE_ORIGIN from '../constants/tipoOrigem';
+import ORGAOS from '../constants/orgaos';
 
 const fabStyle = {
   position: 'absolute',
@@ -205,7 +207,7 @@ export default function Home() {
                         <ListItemText
                           id={labelId}
                           primary={
-                            `${value.typeOrigin} - ${value.numberOrigin} - ${value.foundation}`
+                            `${TYPE_ORIGIN[value.typeOrigin]} - ${value.numberOrigin} - ${ORGAOS[value.foundation]}`
                           }
                         />
                       </Link>

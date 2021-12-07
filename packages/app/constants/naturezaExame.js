@@ -1,6 +1,6 @@
 import { parse } from 'csv-parse/sync';
 
-var csvNaturezaExame = `cod_naturezaexame,cod_nucleo1,naturezaexame,codigo
+const csvNaturezaExame = `cod_naturezaexame,cod_nucleo1,naturezaexame,codigo
 1,7,Atropelamento,1
 2,7,Abalroamento,2
 3,7,Choque,3
@@ -843,11 +843,16 @@ var csvNaturezaExame = `cod_naturezaexame,cod_nucleo1,naturezaexame,codigo
 1443,10,Encontro de Feto,143
 1444,10,Localização/Apreensão de Objeto/Veículo,139
 1445,10,Porte/Posse ilegal de arma de fogo,157
-`
+`;
 
 const records = parse(csvNaturezaExame, {
-    columns: true,
-    skip_empty_lines: true
+  columns: true,
+  skip_empty_lines: true
 });
 
-export default records;
+const obj = {};
+for (const record of records) {
+  obj[record.cod_naturezaexame] = record.naturezaexame;
+}
+
+export default obj;

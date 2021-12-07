@@ -1,6 +1,6 @@
 import { parse } from 'csv-parse/sync';
 
-var csvTipoOrigem = `cod_tipoorigem,tipoorigem,tipoorgaoorigem,cod_tipoorgao
+const csvTipoOrigem = `cod_tipoorigem,tipoorigem,tipoorgaoorigem,cod_tipoorgao
 1,REP/SRA,IC,2
 2,BO,Civil,1
 3,IP,Civil,1
@@ -32,11 +32,16 @@ var csvTipoOrigem = `cod_tipoorigem,tipoorigem,tipoorgaoorigem,cod_tipoorgao
 30,I.C,MP,8
 31,Carta Precatória,Civil,1
 32,Despacho,IC,2
-`
+`;
 
 const records = parse(csvTipoOrigem, {
-    columns: true,
-    skip_empty_lines: true
+  columns: true,
+  skip_empty_lines: true
 });
 
-export default records;
+const obj = {};
+for (const record of records) {
+  obj[record.cod_tipoorigem] = record.tipoorigem;
+}
+
+export default obj;
