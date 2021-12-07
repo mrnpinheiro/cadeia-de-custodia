@@ -21,12 +21,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import JSONLocalStorage from '../utils/json-local-storage';
 
-const fabStyle = {
-  position: 'absolute',
-  bottom: 16,
-  right: 16,
-};
-
 function AlertDialog({isOpen, setIsOpen, onConfirm}) {
   return (
     <div>
@@ -61,7 +55,7 @@ function ActionButtons(props) {
       divider={<Divider orientation="vertical" flexItem />}
       spacing={2}
     >
-			<label htmlFor="icon-button-file">
+	    <label htmlFor="icon-button-file">
         <IconButton
           color="primary"
           aria-label="unarchive rep"

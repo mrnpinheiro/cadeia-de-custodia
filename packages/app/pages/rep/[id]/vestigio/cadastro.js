@@ -40,7 +40,7 @@ function RegisterVestige() {
       const photosToAdd = vestige.photos;
       photoIds = await db.vestigePhotos.bulkAdd(photosToAdd, {allKeys: true});
     }
-    let attachmentIds = []
+    let attachmentIds = [];
     if (vestige.attachments) {
       const attachmentsToAdd = vestige.attachments;
       attachmentIds = await db.vestigeAttachments.bulkAdd(attachmentsToAdd, {allKeys: true});
