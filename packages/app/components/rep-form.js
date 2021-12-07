@@ -26,11 +26,7 @@ const MenuProps = {
   },
 };
 
-function RepForm({initialValues, onSubmit}) {
-  if (!initialValues) {
-    initialValues = {};
-  }
-
+function RepForm({initialValues = {}, onSubmit}) {
   const menuItemsTypeOrigin = arrayTypeOrigin.map(item => (
     <MenuItem key={item.cod_tipoorigem} value={item.cod_tipoorigem}>{item.tipoorigem}</MenuItem>
   ));
@@ -39,18 +35,18 @@ function RepForm({initialValues, onSubmit}) {
     <MenuItem key={item.cod_orgao} value={item.cod_orgao}>{item.orgao}</MenuItem>
   ));
 
-  const [typeOrigin, setTypeOrigin] = React.useState(initialValues.typeOrigin);
-  const [numberOrigin, setNumberOrigin] = React.useState(initialValues.numberOrigin);
+  const [typeOrigin, setTypeOrigin] = React.useState(initialValues.typeOrigin || '');
+  const [numberOrigin, setNumberOrigin] = React.useState(initialValues.numberOrigin || '');
   const [yearOrigin, setYearOrigin] = React.useState((initialValues.yearOrigin && new Date(initialValues.yearOrigin)) || new Date());
-  const [foundation, setFoundation] = React.useState(initialValues.foundation);
-  const [authority, setAuthority] = React.useState(initialValues.authority);
-  const [coordinates, setCoordinates] = React.useState(initialValues.coordinates);
-  const [street, setStreet] = React.useState(initialValues.street);
-  const [number, setNumber] = React.useState(initialValues.number);
-  const [complement, setComplement] = React.useState(initialValues.complement);
-  const [district, setDistrict] = React.useState(initialValues.district);
-  const [city, setCity] = React.useState(initialValues.city);
-  const [state, setState] = React.useState(initialValues.state);
+  const [foundation, setFoundation] = React.useState(initialValues.foundation || '');
+  const [authority, setAuthority] = React.useState(initialValues.authority || '');
+  const [coordinates, setCoordinates] = React.useState(initialValues.coordinates || '');
+  const [street, setStreet] = React.useState(initialValues.street || '');
+  const [number, setNumber] = React.useState(initialValues.number || '');
+  const [complement, setComplement] = React.useState(initialValues.complement || '');
+  const [district, setDistrict] = React.useState(initialValues.district || '');
+  const [city, setCity] = React.useState(initialValues.city || '');
+  const [state, setState] = React.useState(initialValues.state || '');
 
   async function setAddressByCoordinates(lat, lng) {
     const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}6&lon=${lng}`);
