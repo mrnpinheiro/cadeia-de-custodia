@@ -8,11 +8,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
-import CreateIcon from '@mui/icons-material/Create';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UnarchiveIcon from '@mui/icons-material/Unarchive';
@@ -24,16 +21,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import JSONLocalStorage from '../utils/json-local-storage';
 
-const fabStyle = {
-  position: 'absolute',
-  bottom: 16,
-  right: 16,
-};
-
 function AlertDialog({isOpen, setIsOpen, onConfirm}) {
-	return (
+  return (
     <div>
-    <Dialog
+      <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
         aria-labelledby="alert-dialog-title"
@@ -64,7 +55,7 @@ function ActionButtons(props) {
       divider={<Divider orientation="vertical" flexItem />}
       spacing={2}
     >
-			<label htmlFor="icon-button-file">
+		  <label htmlFor="icon-button-file">
         <IconButton
           color="primary"
           aria-label="unarchive vestige"
