@@ -9,6 +9,8 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import Typography from '@mui/material/Typography';
 
 import ArrayLocalStorage from '../../../../utils/array-local-storage';
+import TIPO_ORIGEM from '../../../../constants/tipoOrigem';
+import ORGAOS from '../../../../constants/orgaos';
 
 function viewVestige() {
   const router = useRouter();
@@ -52,7 +54,7 @@ function viewVestige() {
           <b>Informações da REP vinculada</b>
         </Typography>
         <Typography>
-          {`${rep.typeOrigin} - ${rep.numberOrigin} - ${rep.foundation}`}
+          {`${TIPO_ORIGEM[rep.typeOrigin]} - ${rep.numberOrigin} - ${ORGAOS[rep.foundation]}`}
         </Typography>
       </Grid>
     </Grid>
