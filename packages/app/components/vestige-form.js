@@ -21,6 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import TYPE_ORIGIN from '../constants/tipoOrigem';
 import ORGAOS from '../constants/orgaos';
+import TIPO_VESTIGIO from '../constants/tipoVestigio';
 
 const Input = styled('input')({
   display: 'none',
@@ -160,9 +161,11 @@ function VestigeForm({initialValues, rep, onSubmit}) {
               label="Tipo de Vestígio"
               onChange={e => setTypeVestige(e.target.value)}
             >
-              <MenuItem value={"organic"}>Orgânico</MenuItem>
-              <MenuItem value={"inorganic"}>Inorgânico</MenuItem>
-              <MenuItem value={"others"}>Outros</MenuItem>
+              {
+                Object.entries(TIPO_VESTIGIO).map(([index, value]) => (
+                  <MenuItem key={index} value={index}>{value}</MenuItem>
+                ))
+              }
             </Select>
           </FormControl>
         </Grid>

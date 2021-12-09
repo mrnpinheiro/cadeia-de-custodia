@@ -9,6 +9,7 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import Typography from '@mui/material/Typography';
 
 import ArrayLocalStorage from '../../../../utils/array-local-storage';
+import TIPO_VESTIGIO from '../../../../constants/tipoVestigio';
 
 function viewVestige() {
   const router = useRouter();
@@ -65,7 +66,7 @@ function viewVestige() {
       </Grid>
       <Grid item xs={12}>
         <Typography variant="body1">
-          <b>Tipo de Vestígio:</b> {vestige.typeVestige}
+          <b>Tipo de Vestígio:</b> {TIPO_VESTIGIO[vestige.typeVestige]}
         </Typography>
       </Grid>
       <Grid item xs={12}>

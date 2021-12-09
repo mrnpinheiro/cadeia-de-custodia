@@ -21,6 +21,7 @@ import ArrayLocalStorage from '../../utils/array-local-storage';
 import JSONLocalStorage from '../../utils/json-local-storage';
 import TYPE_ORIGIN from '../../constants/tipoOrigem';
 import ORGAOS from '../../constants/orgaos';
+import TIPO_VESTIGIO from '../../constants/tipoVestigio';
 
 function ActionButtons(props) {
   return (
@@ -200,7 +201,7 @@ function viewRep() {
                   <ListItemText
                     id={labelId}
                     primary={
-                      `${vestige.typeVestige} - ${vestige.classPiece}`
+                      `${TIPO_VESTIGIO[vestige.typeVestige]} - ${vestige.classPiece}`
                     }
                   />
                 </Link>
