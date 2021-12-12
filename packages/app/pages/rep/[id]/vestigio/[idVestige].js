@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 
 import ArrayLocalStorage from '../../../../utils/array-local-storage';
 import TIPO_VESTIGIO from '../../../../constants/tipoVestigio';
+import TIPO_ORIGEM from '../../../../constants/tipoOrigem';
+import ORGAOS from '../../../../constants/orgaos';
 
 function viewVestige() {
   const router = useRouter();
@@ -19,13 +21,13 @@ function viewVestige() {
   const [rep, setRep] = React.useState();
   const [vestige, setVestige] = React.useState();
   const [photos, setPhotos] = React.useState([]);
-  const [attachments, setAttachments] = React.useState([]);  
+  const [attachments, setAttachments] = React.useState([]);
 
   const db = new Dexie("cadeia-de-custodia");
 
   React.useEffect(
     () => {
-      db.version(1).stores({ 
+      db.version(1).stores({
         vestigePhotos: '++id,hash,name,file',
         vestigeAttachments: '++id,hash,name,file'
       });
@@ -53,7 +55,7 @@ function viewVestige() {
           <b>Informações da REP vinculada</b>
         </Typography>
         <Typography>
-          {`${rep.typeOrigin} - ${rep.numberOrigin} - ${rep.foundation}`}
+          {`${TIPO_ORIGEM[rep.typeOrigin]} - ${rep.numberOrigin} - ${ORGAOS[rep.foundation]}`}
         </Typography>
       </Grid>
     </Grid>

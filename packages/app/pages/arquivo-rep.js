@@ -20,6 +20,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import JSONLocalStorage from '../utils/json-local-storage';
+import TIPO_ORIGEM from '../constants/tipoOrigem';
+import ORGAOS from '../constants/orgaos';
 
 function AlertDialog({isOpen, setIsOpen, onConfirm}) {
   return (
@@ -184,7 +186,7 @@ export default function ArchieveREP() {
                         <ListItemText
                           id={labelId}
                           primary={
-                            `${value.typeOrigin} - ${value.numberOrigin} - ${value.foundation}`
+                            `${TIPO_ORIGEM[value.typeOrigin]} - ${value.numberOrigin} - ${ORGAOS[value.foundation]}`
                           }
                         />
                       </Link>
