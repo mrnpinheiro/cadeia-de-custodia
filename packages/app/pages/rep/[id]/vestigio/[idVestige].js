@@ -9,6 +9,7 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import Typography from '@mui/material/Typography';
 
 import ArrayLocalStorage from '../../../../utils/array-local-storage';
+import TIPO_VESTIGIO from '../../../../constants/tipoVestigio';
 import TIPO_ORIGEM from '../../../../constants/tipoOrigem';
 import ORGAOS from '../../../../constants/orgaos';
 
@@ -20,13 +21,13 @@ function viewVestige() {
   const [rep, setRep] = React.useState();
   const [vestige, setVestige] = React.useState();
   const [photos, setPhotos] = React.useState([]);
-  const [attachments, setAttachments] = React.useState([]);  
+  const [attachments, setAttachments] = React.useState([]);
 
   const db = new Dexie("cadeia-de-custodia");
 
   React.useEffect(
     () => {
-      db.version(1).stores({ 
+      db.version(1).stores({
         vestigePhotos: '++id,hash,name,file',
         vestigeAttachments: '++id,hash,name,file'
       });
@@ -67,7 +68,7 @@ function viewVestige() {
       </Grid>
       <Grid item xs={12}>
         <Typography variant="body1">
-          <b>Tipo de Vestígio:</b> {vestige.typeVestige}
+          <b>Tipo de Vestígio:</b> {TIPO_VESTIGIO[vestige.typeVestige]}
         </Typography>
       </Grid>
       <Grid item xs={12}>
