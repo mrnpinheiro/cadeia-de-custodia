@@ -34,9 +34,7 @@ function RepForm({initialValues = {}, onSubmit}) {
 
   const [typeOrigin, setTypeOrigin] = React.useState(initialValues.typeOrigin || '');
   const [numberOrigin, setNumberOrigin] = React.useState(initialValues.numberOrigin || '');
-  const [yearOrigin, setYearOrigin] = React.useState(
-    (initialValues.yearOrigin && new Date(initialValues.yearOrigin)
-  ) || new Date());
+  const [yearOrigin, setYearOrigin] = React.useState((initialValues.yearOrigin && new Date(initialValues.yearOrigin)) || new Date());
   const [foundation, setFoundation] = React.useState(initialValues.foundation || '');
   const [authority, setAuthority] = React.useState(initialValues.authority || '');
   const [coordinates, setCoordinates] = React.useState(initialValues.coordinates || '');
