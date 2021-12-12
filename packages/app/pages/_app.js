@@ -60,10 +60,12 @@ function MyApp({ Component, pageProps }) {
     >
       <List>
         {sidebarItems.map((menuItem, index) => (
-          <Link href={menuItem.path} key={index}>
-            <ListItem button>
-              <ListItemText primary={menuItem.name} />
-            </ListItem>
+          <Link href={menuItem.path} key={index} passHref>
+            <a>
+              <ListItem button>
+                <ListItemText primary={menuItem.name} />
+              </ListItem>
+            </a>
           </Link>
         ))}
       </List>
