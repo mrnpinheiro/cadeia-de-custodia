@@ -3743,9 +3743,9 @@ const records = parse(csvOrgao, {
   skip_empty_lines: true
 });
 
-const obj = {};
+const obj = [];
 for (const record of records) {
-  obj[record.cod_orgao] = record.orgao;
+  {obj[record.cod_orgao] = record.orgao};
 }
 
 export default obj;

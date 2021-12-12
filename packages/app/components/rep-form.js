@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import Autocomplete from '@mui/material/Autocomplete';
 import axios from 'axios';
 
 import TYPE_ORIGIN from '../constants/tipoOrigem';
@@ -31,13 +32,11 @@ function RepForm({initialValues = {}, onSubmit}) {
     <MenuItem key={index} value={index}>{value}</MenuItem>
   ));
 
-  const menuItemsOrgaos = Object.entries(ORGAOS).map(([index, value]) => (
-    <MenuItem key={index} value={index}>{value}</MenuItem>
-  ));
-
   const [typeOrigin, setTypeOrigin] = React.useState(initialValues.typeOrigin || '');
   const [numberOrigin, setNumberOrigin] = React.useState(initialValues.numberOrigin || '');
-  const [yearOrigin, setYearOrigin] = React.useState((initialValues.yearOrigin && new Date(initialValues.yearOrigin)) || new Date());
+  const [yearOrigin, setYearOrigin] = React.useState(
+    (initialValues.yearOrigin && new Date(initialValues.yearOrigin)
+  ) || new Date());
   const [foundation, setFoundation] = React.useState(initialValues.foundation || '');
   const [authority, setAuthority] = React.useState(initialValues.authority || '');
   const [coordinates, setCoordinates] = React.useState(initialValues.coordinates || '');
@@ -49,7 +48,9 @@ function RepForm({initialValues = {}, onSubmit}) {
   const [state, setState] = React.useState(initialValues.state || '');
 
   async function setAddressByCoordinates(lat, lng) {
-    const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}6&lon=${lng}`);
+    const response = await axios.get(
+      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}6&lon=${lng}`
+    );
 
     const address = response.data.address;
 
@@ -140,19 +141,13 @@ function RepForm({initialValues = {}, onSubmit}) {
           />
         </Grid>
         <Grid item xs={12}>
-          <FormControl fullWidth >
-            <InputLabel id="origin">Órgão</InputLabel>
-            <Select
-              labelId="Órgão"
-              id="foundation"
-              value={foundation}
-              label="Órgão"
-              onChange={e => setFoundation(e.target.value)}
-              MenuProps={MenuProps}
-            >
-              {menuItemsOrgaos}
-            </Select>
-          </FormControl>
+          <Autocomplete
+            disablePortal
+            id="foundation"
+            options={ORGAOS}
+            renderInput={(params) => <TextField {...params} label="Órgão" />}
+            onChange={e => setFoundation(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12}>
           <TextField
