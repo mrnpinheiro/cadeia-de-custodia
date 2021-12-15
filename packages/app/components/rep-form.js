@@ -123,6 +123,7 @@ function RepForm({initialValues = {}, onSubmit}) {
         <Grid item xs={8}>
           <TextField
             label="Número da Origem"
+            id="numberOrigin"
             value={numberOrigin}
             onChange={e => setNumberOrigin(e.target.value)}
             variant="outlined" fullWidth
@@ -132,6 +133,7 @@ function RepForm({initialValues = {}, onSubmit}) {
           <DatePicker
             views={['year']}
             label="Ano da Origem"
+            id="yearOrigin"
             value={yearOrigin}
             onChange={e => setYearOrigin(e.target.value)}
             variant="outlined"
@@ -157,6 +159,7 @@ function RepForm({initialValues = {}, onSubmit}) {
         <Grid item xs={12}>
           <TextField
             label="Autoridade Solicitante"
+            id="authority"
             value={authority}
             onChange={e => setAuthority(e.target.value)}
             variant="outlined" fullWidth
@@ -173,6 +176,7 @@ function RepForm({initialValues = {}, onSubmit}) {
         <Grid item xs={12}>
           <TextField
             label="Rua / Logradouro"
+            id="street"
             value={street}
             onChange={e => setStreet(e.target.value)}
             variant="outlined"
@@ -182,6 +186,7 @@ function RepForm({initialValues = {}, onSubmit}) {
         <Grid item xs={4}>
           <TextField
             label="Nº"
+            id="number"
             value={number}
             onChange={e => setNumber(e.target.value)}
             type="number"
@@ -193,6 +198,7 @@ function RepForm({initialValues = {}, onSubmit}) {
         <Grid item xs={8}>
           <TextField
             label="Complemento"
+            id="complement"
             value={complement}
             onChange={e => setComplement(e.target.value)}
             type="text"
@@ -203,6 +209,7 @@ function RepForm({initialValues = {}, onSubmit}) {
         <Grid item xs={12}>
           <TextField
             label="Bairro"
+            id="district"
             value={district}
             onChange={e => setDistrict(e.target.value)}
             variant="outlined"
@@ -212,6 +219,7 @@ function RepForm({initialValues = {}, onSubmit}) {
         <Grid item xs={8}>
           <TextField
             label="Cidade"
+            id="city"
             value={city}
             onChange={e => setCity(e.target.value)}
             variant="outlined"
@@ -221,6 +229,7 @@ function RepForm({initialValues = {}, onSubmit}) {
         <Grid item xs={4}>
           <TextField
             label="UF"
+            id="state"
             value={state}
             onChange={e => setState(e.target.value)}
             variant="outlined"
@@ -230,6 +239,7 @@ function RepForm({initialValues = {}, onSubmit}) {
         <Grid item xs={12}>
           <TextField
             label="Lat / Long"
+            id="coordinates"
             value={coordinates}
             onChange={e => setCoordinates(e.target.value)}
             variant="outlined"
